@@ -1,0 +1,62 @@
+/* Connect */
+body{
+    margin:0;
+}
+.connect_body{
+    width:100%;
+    margin:auto;
+ }
+ #reachOut {
+     text-align: center;
+ }
+ .connect_icons{
+     text-align: justify;
+     -ms-text-justify: distribute-all-lines;
+     text-justify: distribute-all-lines;
+     width:300px;
+     margin:auto;
+ }
+ .connect_icon1, .connect_icon2, .connect_icon3, .connect_icon4 {
+     width: 50px;
+     height: 50px;
+     padding-top:20px;
+     vertical-align: top;
+     display:inline-block;
+     zoom: 1;
+ }
+ .connect_icons:after {
+     content: '';
+     width: 100%;
+     display: inline-block;
+     font-size: 0;
+     line-height: 0
+ }
+  .connect_icon4{
+    padding-top:5px;
+    margin-left:-10px;
+ }
+ 
+  .connect_line{
+    width:500px;
+    margin:auto;
+    text-align:center;
+    padding:20px;
+ }
+ 
+ @media screen and (max-width: 50000px){
+     .connect_line{
+         width:650px;
+     }
+ }
+  
+ @media screen and (max-width: 800px){
+     .connect_line{
+         width:550px;
+     }
+ }
+ 
+ @media screen and (max-width: 500px){
+     .connect_line{
+         width:400px;
+     }
+ }

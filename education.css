@@ -1,0 +1,46 @@
+/*Education Section */
+html{
+     background-color:white;
+}
+/* #heading styles are defined in website.css for consistency */
+body{
+    margin:0;
+    background-color:white;
+}
+
+.edu_section{
+    margin-top:10px;
+    background-color: rgb(216, 216, 216);
+    padding:10px; 
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:50px;
+    width:80vw;
+    max-width:800px;
+    position:relative;
+    border-radius: 25px;
+}
+.school_icon {
+    position:absolute;
+}
+.edu_block{
+    margin-left:150px;
+}
+.page_intro{
+    font-size:1.9rem;
+}
+.edu_title{
+    font-size:1.5rem;
+}
+.edu_subtitle{
+    font-size:1.2rem;
+}
+.edu_courses{
+    font-size: 1.1rem;
+}
+.edu_courses_list{
+    font-size:1rem;
+}
+ul li { padding: 5px 0px; }
+
+

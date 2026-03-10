@@ -72,7 +72,7 @@ body.about-page {
 }
 
 .about_who {
-  font-family: "Archivo", sans-serif;
+  font-family: "Caveat", cursive;
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 600;
   color: var(--rosewood);
@@ -182,7 +182,7 @@ body.about-page {
 
 /* Section titles */
 .about_section_title {
-  font-family: "Archivo", sans-serif;
+  font-family: "Caveat", cursive;
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 600;
   color: var(--rosewood);
@@ -280,7 +280,7 @@ body.about-page {
 }
 
 .m1 {
-  font-family: "Archivo", sans-serif;
+  font-family: "Caveat", cursive;
   font-weight: 600;
   font-size: 1.125rem;
   color: var(--rosewood);

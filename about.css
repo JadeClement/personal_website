@@ -26,6 +26,18 @@ body.about-page {
   color: var(--text-primary);
 }
 
+/* Keep header/navbar styling identical to rest of site */
+body.about-page #heading,
+body.about-page #heading * {
+  color: #fff !important;
+}
+body.about-page #heading .name_title {
+  font-family: "Caveat", cursive !important;
+}
+body.about-page #heading .navbar__links {
+  font-family: "Kumbh Sans", sans-serif !important;
+}
+
 .c {
   width: 100%;
 }

@@ -1,8 +1,15 @@
 # macOS
 .DS_Store
 
+# Python
+.venv/
+.u2net_cache/
+
 # Editor
 .vscode/
 .idea/
 *.swp
 *.swo
+
+# Cursor
+.cursor/

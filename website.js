@@ -43,10 +43,14 @@ function setActiveNavLink() {
     if (!links.length) return;
 
     // Match current page by filename (e.g. "projects.html").
-    // Treat "index.html" as the "Home" page.
-    let currentFile = (window.location.pathname || "").split("/").pop() || "";
-    if (currentFile === "index.html") currentFile = "website.html";
+    // Treat "index.html" and "/" as the "Home" page.
+    const pathname = (window.location.pathname || "").trim();
+    let currentFile = pathname.replace(/\/+$/, "").split("/").pop() || "";
+    if (!currentFile || currentFile === "/" || currentFile === "index.html") {
+        currentFile = "website.html";
+    }
 
+    let anyActive = false;
     links.forEach((link) => {
         const hrefAttr = link.getAttribute("href") || "";
         let targetFile = "";
@@ -59,11 +63,21 @@ function setActiveNavLink() {
         const isActive = currentFile === targetFile;
         link.classList.toggle("navbar__links--active", isActive);
         if (isActive) {
+            anyActive = true;
             link.setAttribute("aria-current", "page");
         } else {
             link.removeAttribute("aria-current");
         }
     });
+
+    // If we still couldn't match anything, default to Home.
+    if (!anyActive) {
+        const homeLink = document.getElementById("main-page") || document.querySelector('.navbar__links[href*="website.html"]');
+        if (homeLink) {
+            homeLink.classList.add("navbar__links--active");
+            homeLink.setAttribute("aria-current", "page");
+        }
+    }
 }
 
 

@@ -308,6 +308,26 @@ a {
     
 }
 
+.typewriter{
+    display: inline-block;
+    min-width: 14ch; /* reduces layout shift as text length changes */
+    font-family: var(--title-vintage);
+    font-size: 2.3em; /* doubled from 1.15em */
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.typewriter-caret{
+    display: inline-block;
+    margin-left: 2px;
+    animation: typewriterCaretBlink 1s step-end infinite;
+    line-height: 1;
+}
+
+@keyframes typewriterCaretBlink{
+    50%{ opacity: 0; }
+}
+
 #profile_img{
     height:300px;
     border-radius: 15px;
@@ -319,6 +339,38 @@ a {
     padding:20px;
     vertical-align: middle;
     font-size:20px;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .typewriter-caret{
+        animation: none;
+        opacity: 1;
+    }
+}
+
+.name-with-role{
+    display: inline-flex;
+    align-items: baseline;
+    /* Desktop responsive gap:
+       - 1200px => 160px
+       - +10px per +50px (i.e. +0.2px per 1px)
+       - cap at 240px
+    */
+    gap: clamp(130px, calc(130px + (100vw - 1200px) / 5), 240px);
+}
+
+.typed-role-group{
+    display: inline-flex;
+    align-items: baseline;
+}
+
+@media screen and (max-width: 999px){
+    .name-with-role{
+        display: flex;
+        flex-direction: column; /* drop under the name */
+        align-items: flex-start;
+        gap: 10px;
+    }
 }
 
 
@@ -506,6 +558,18 @@ a {
 .recently_cards .flip-card:hover .flip-card-inner,
 .recently_cards .flip-card:focus-within .flip-card-inner{
     transform: rotateY(180deg);
+}
+
+/* Touch devices: flip only when tapped (toggle via `.is-flipped`). */
+@media (hover: none) and (pointer: coarse){
+    .recently_cards .flip-card:hover .flip-card-inner,
+    .recently_cards .flip-card:focus-within .flip-card-inner{
+        transform: rotateY(0deg);
+    }
+
+    .recently_cards .flip-card.is-flipped .flip-card-inner{
+        transform: rotateY(180deg);
+    }
 }
 
 .recently_cards .flip-card-front,

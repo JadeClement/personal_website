@@ -105,3 +105,136 @@ if (document.readyState === "loading") {
     injectFooterLinks();
 }
 
+// Rotating typewriter title (home page only).
+function initRoleTypewriter() {
+    const roleEl = document.getElementById("typed-role");
+    if (!roleEl) return; // only exists on the home page
+
+    const roles = [
+        "ML Engineer",
+        "AI Safety Researcher",
+        "Full-Stack Developer",
+        "Triathlete",
+        "Uoft Engineering Science Student",
+    ];
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+        roleEl.textContent = roles[0];
+        return;
+    }
+
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    // Speeds tuned to feel snappy without being distracting.
+    const typeSpeedMs = 70;
+    const deleteSpeedMs = 45;
+    const pauseAfterTypeMs = 1200;
+    const pauseAfterDeleteMs = 450;
+
+    function tick() {
+        const currentRole = roles[roleIndex];
+
+        if (!isDeleting) {
+            charIndex++;
+            roleEl.textContent = currentRole.slice(0, charIndex);
+
+            if (charIndex >= currentRole.length) {
+                isDeleting = true;
+                window.setTimeout(tick, pauseAfterTypeMs);
+                return;
+            }
+
+            window.setTimeout(tick, typeSpeedMs);
+            return;
+        }
+
+        // deleting
+        charIndex--;
+        roleEl.textContent = currentRole.slice(0, Math.max(0, charIndex));
+
+        if (charIndex <= 0) {
+            isDeleting = false;
+            roleIndex = (roleIndex + 1) % roles.length;
+            window.setTimeout(tick, pauseAfterDeleteMs);
+            return;
+        }
+
+        window.setTimeout(tick, deleteSpeedMs);
+    }
+
+    tick();
+}
+
+// Defer until DOM is ready (safe even though the script tag is `defer`).
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initRoleTypewriter);
+} else {
+    initRoleTypewriter();
+}
+
+// Flip cards on mobile tap.
+function initTapFlipCards() {
+    const flipCards = document.querySelectorAll(".recently_cards .flip-card");
+    if (!flipCards.length) return;
+
+    flipCards.forEach((card) => {
+        // Default state for assistive technologies.
+        if (!card.hasAttribute("aria-expanded")) card.setAttribute("aria-expanded", "false");
+
+        const toggleFlip = () => {
+            const isFlipped = card.classList.toggle("is-flipped");
+            card.setAttribute("aria-expanded", String(isFlipped));
+        };
+
+        card.addEventListener("click", (e) => {
+            // If the browser handles this as a “click after scroll”, it won't fire; safe to toggle on click.
+            toggleFlip();
+        });
+
+        // Keyboard support (Enter/Space), since cards are focusable via `tabindex="0"`.
+        card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                toggleFlip();
+            }
+        });
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTapFlipCards);
+} else {
+    initTapFlipCards();
+}
+
+// Responsive hero title lift (home page only).
+function initIntroTitleLift() {
+    const introLine = document.querySelector(".intro_line");
+    if (!introLine) return;
+
+    const startWidthPx = 1000;
+    const pixelsUpPerPxWidthDecrease = 10 / 40; // 10px up per 40px width decrease
+    const maxLiftPx = 400; // safety cap so it doesn't drift off-screen
+
+    function update() {
+        const width = window.innerWidth;
+        const widthDecrease = startWidthPx - width; // positive when below startWidthPx
+        const rawLiftPx = widthDecrease * pixelsUpPerPxWidthDecrease;
+        const liftPx = Math.max(0, Math.min(maxLiftPx, rawLiftPx));
+        // Move the entire hero title upwards smoothly by adjusting the Y translate.
+        introLine.style.transform = `translateY(${-liftPx}px)`;
+    }
+
+    update();
+    window.addEventListener("resize", update);
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initIntroTitleLift);
+} else {
+    initIntroTitleLift();
+}
+

@@ -109,6 +109,13 @@ a {
     color: rosybrown;
     transition: all 0.3s ease; /* make sure to do this in the part up above as well */
 }
+
+.navbar__links--active{
+    color: rosybrown !important;
+    text-decoration: underline !important;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 10px;
+}
 .navbar__links:last-child {
     margin-right: 0 !important;
     padding-right: 0 !important;

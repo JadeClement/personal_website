@@ -38,16 +38,47 @@ const menuLinks = document.querySelector(".navbar__menu")
 const nav = document.querySelector(".navbar")
 const name1 = document.querySelector(".name_title");
 
+function setActiveNavLink() {
+    const links = document.querySelectorAll(".navbar__links");
+    if (!links.length) return;
+
+    // Match current page by filename (e.g. "projects.html").
+    // Treat "index.html" as the "Home" page.
+    let currentFile = (window.location.pathname || "").split("/").pop() || "";
+    if (currentFile === "index.html") currentFile = "website.html";
+
+    links.forEach((link) => {
+        const hrefAttr = link.getAttribute("href") || "";
+        let targetFile = "";
+        try {
+            targetFile = new URL(hrefAttr, window.location.href).pathname.split("/").pop() || "";
+        } catch {
+            targetFile = hrefAttr.split("/").pop() || "";
+        }
+
+        const isActive = currentFile === targetFile;
+        link.classList.toggle("navbar__links--active", isActive);
+        if (isActive) {
+            link.setAttribute("aria-current", "page");
+        } else {
+            link.removeAttribute("aria-current");
+        }
+    });
+}
+
 
 //display mobile menu
 const mobileMenu = () => {
-    menu.classList.toggle("is-active")
+    // Keep in sync with `#mobile-menu.is-activating` styles in `website.css`
+    menu.classList.toggle("is-activating")
     menuLinks.classList.toggle("activating")
     nav.classList.toggle("activated")
     name1.classList.toggle('hide')
 }
 
 menu.addEventListener("click", mobileMenu);
+
+setActiveNavLink();
 
 // Inject shared footer links on all pages.
 // Some pages load `website.js` before the `.footer` element exists, so we inject after DOM is ready.

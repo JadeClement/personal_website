@@ -1,10 +1,17 @@
 *{
     /* font-family: 'Segoe UI';
     font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif ; */
-    font-family: Tahoma, "Trebuchet MS", sans-serif;
+    font-family: inherit;
     margin:0;
     padding:0;
 }
+
+ :root{
+    --title-brown: #533129;
+    --title-vintage: "Cormorant Garamond", "Times New Roman", serif;
+    --jade-clement-font: "Metal", "Times New Roman", serif;
+    --secondaryTitleFontSize: 2.3rem;
+ }
 
 html{
     margin:0;
@@ -16,14 +23,16 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden; 
-    background-color: rgb(140, 177, 188);
+    background-color: #819fb3;
     background-size:cover;
     width:100%;
     padding-bottom:50px;
+    color: var(--title-brown);
+    font-family: var(--title-vintage);
 
   }
 a {
-    color: black;
+    color: var(--title-brown);
 }
 
 #heading{
@@ -32,12 +41,13 @@ a {
     top:0;
 }
 .page_intro{
-    font-size:1.8rem;
+    font-size: var(--secondaryTitleFontSize);
+    font-family: var(--title-vintage);
 }
 
 /* NavBar Section */
 .navbar {
-    background: #628e98 !important;
+    background: #3b6694 !important;
     height: 60px !important;
     width: 100% !important;
     display: flex !important;
@@ -78,7 +88,8 @@ a {
 }
 
 .navbar__links{
-    font-family: "Kumbh Sans", sans-serif !important;
+    /* Match the rest of the site typography; keep `.name_title` as the only special font */
+    font-family: inherit !important;
     color: #fff !important; /*changes text color*/
     display: flex !important;
     justify-content: center !important;
@@ -104,10 +115,15 @@ a {
 }
 .name_title{
     display:flex !important;
-    font-size:30px !important;
-    font-family: 'Caveat',cursive !important;
+    /* Keep the name on a single line on all screen sizes */
+    font-size: clamp(22px, 7vw, 30px) !important;
+    font-family: var(--jade-clement-font) !important;
     margin: 0 !important;
     padding: 0 !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
+    line-height: 1;
+    color: #fff !important;
 }
 .hide {
     display: none !important;
@@ -159,7 +175,9 @@ a {
         width: 100%;
     }
     .name_title{
-        width:200px;
+        /* Prevent wrapping while still fitting mobile widths */
+        width:auto;
+        max-width: 70vw;
     }
     .navbar__links {
         text-align: center;
@@ -177,9 +195,10 @@ a {
     #mobile-menu {
         position: absolute;
         /*padding-right: 20px;*/
-        top: 20%;
-        right: 20%;
-        transform: translate(5%, 20%)
+        /* Anchor hamburger near the right edge on mobile */
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
     }
     .navbar__toggle .bar {
         display: block;
@@ -204,18 +223,45 @@ a {
 
 /*Footer*/
 .footer {
-    background: #628e98;
+    background: #3b6694;
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100vw;
     height: 30px;
     max-width:100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    box-sizing: border-box;
+    z-index: 998;
+}
+
+.footer_links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.footer_link {
+    color: #fff !important;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.footer_separator {
+    color: #fff;
+    font-weight: 400;
 }
 
 /* Intro Section */
 .intro_container{
-    background-color: rgb(140, 177, 188);   
+    /* Match hero background exactly to profile image backdrop (me_old.jpg corner color) */
+    background-color: #98a2ac;
     width:100vw;
     height:100vh;
     position:relative;
@@ -235,6 +281,7 @@ a {
 
 #hello{
     font-size:20px;
+    font-family: var(--title-vintage);
 }
 
 .intro_line{
@@ -244,7 +291,7 @@ a {
     left:8rem;
 }
 #name{
-    font-family: 'Caveat',cursive;
+    font-family: var(--jade-clement-font);
 }
 
 #intro{
@@ -257,6 +304,8 @@ a {
 #profile_img{
     height:300px;
     border-radius: 15px;
+    display: block;
+    background-color: transparent;
 }
 .welcome{
     position:absolute;
@@ -395,12 +444,13 @@ a {
 
 }
 .page_intro{
-    font-size:30px;
+    font-size: var(--secondaryTitleFontSize);
     display:flex;
     justify-content:center;
     align-items:center;
     text-decoration:underline;
-    font-family:'Caveat',cursive;
+    font-family: var(--title-vintage);
+    color: #533129;
 }
 
 
@@ -409,15 +459,17 @@ a {
     width: 100vw;
     padding: 60px 20px 90px;
     box-sizing: border-box;
+    background-color: #98a2ac;
 }
 
 .recently_title{
-    font-size: 2rem;
+    font-size: var(--secondaryTitleFontSize);
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: underline;
-    font-family:'Caveat',cursive;
+    font-family: var(--title-vintage);
+    color: #533129;
     margin-bottom: 24px;
 }
 
@@ -431,7 +483,7 @@ a {
 
 .recently_card{
     width: min(320px, 86vw);
-    height: 190px;
+    height: 220px;
     cursor: pointer;
     perspective: 1000px;
 }
@@ -455,35 +507,85 @@ a {
     inset: 0;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    border-radius: 14px;
-    padding: 22px 18px;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
-    border: 1px solid rgba(132, 157, 187, 0.35);
-    background: rgba(255, 255, 255, 0.78);
+    border-radius: 16px;
+    padding: 20px 20px;
+    box-shadow: 0 14px 40px rgba(12, 22, 33, 0.12);
+    border: 1px solid rgba(98, 142, 152, 0.35);
+    background: rgba(255, 255, 255, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    transition: box-shadow 220ms ease, border-color 220ms ease, background 220ms ease;
 }
 
 .recently_cards .flip-card-back{
     transform: rotateY(180deg);
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.96);
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.recently_card:hover .flip-card-front,
+.recently_card:focus-within .flip-card-front{
+    box-shadow: 0 18px 52px rgba(12, 22, 33, 0.14);
+    border-color: rgba(98, 142, 152, 0.55);
 }
 
 .recently_cards .flip-card-title{
     font-weight: 600;
-    font-size: 1.15rem;
-    color: #3b3b3b;
+    font-size: 1.5rem;
+    color: var(--title-brown);
     line-height: 1.3;
+    font-family: var(--title-vintage);
 }
 
 .recently_cards .flip-card-desc{
     margin: 0;
-    font-size: 0.95rem;
-    line-height: 1.45;
-    color: #333;
+    font-size: 0.93rem;
+    line-height: 1.5;
+    color: var(--title-brown);
+}
+
+.flip-card-back-content{
+    width: 100%;
+}
+
+.recently_cards .flip-card-back-title{
+    font-weight: 700;
+    font-size: 1.08rem;
+    color: var(--title-brown);
+    margin-bottom: 4px;
+    font-family: var(--title-vintage);
+    line-height: 1.2;
+}
+
+.recently_cards .flip-card-back-date{
+    font-style: italic;
+    font-size: 0.92rem;
+    color: rgba(83, 49, 41, 0.9);
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.recently_cards .flip-card-desc-list{
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--title-brown);
+    font-size: 0.93rem;
+    line-height: 1.5;
+}
+
+.recently_cards .flip-card-desc-list li{
+    margin-bottom: 5px;
+}
+
+.recently_cards .flip-card-back .flip-card-desc-list li:last-child{
+    margin-bottom: 0;
 }
 
 @media (prefers-reduced-motion: reduce){

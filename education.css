@@ -1,16 +1,17 @@
 /*Education Section */
 html{
-     background-color:white;
+     background-color:#B0D2EC;
 }
 /* #heading styles are defined in website.css for consistency */
 body{
     margin:0;
-    background-color:white;
+    background-color:#B0D2EC;
 }
 
 .edu_section{
     margin-top:10px;
-    background-color: rgb(216, 216, 216);
+    /* Transparent title-brown for a softer box background */
+    background-color: rgba(83, 49, 41, 0.16);
     padding:10px; 
     margin-left:auto;
     margin-right:auto;
@@ -27,7 +28,9 @@ body{
     margin-left:150px;
 }
 .page_intro{
-    font-size:1.9rem;
+    font-size: var(--secondaryTitleFontSize);
+    color: #533129;
+    font-family: var(--title-vintage);
 }
 .edu_title{
     font-size:1.5rem;

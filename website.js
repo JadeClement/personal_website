@@ -47,5 +47,30 @@ const mobileMenu = () => {
     name1.classList.toggle('hide')
 }
 
-menu.addEventListener("click", mobileMenu)
+menu.addEventListener("click", mobileMenu);
+
+// Inject shared footer links on all pages.
+// Some pages load `website.js` before the `.footer` element exists, so we inject after DOM is ready.
+const emailAddress = "jadecathclement@gmail.com";
+const linkedInUrl = "https://www.linkedin.com/in/jadeclement-888/";
+
+function injectFooterLinks() {
+    const footerHtml = `
+        <div class="footer_links">
+            <a class="footer_link" href="mailto:${emailAddress}" aria-label="Email Jade Clement">${emailAddress}</a>
+            <span class="footer_separator">|</span>
+            <a class="footer_link" href="${linkedInUrl}" target="_blank" rel="noopener noreferrer" aria-label="Jade Clement on LinkedIn">LinkedIn</a>
+        </div>
+    `;
+
+    document.querySelectorAll(".footer").forEach((footer) => {
+        footer.innerHTML = footerHtml;
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", injectFooterLinks);
+} else {
+    injectFooterLinks();
+}
 

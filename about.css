@@ -5,12 +5,11 @@
 
 body.about-page {
   background-color: #f8f5ef;
-  font-family: "Source Sans 3", system-ui, sans-serif;
 }
 
 :root {
   /* Palette */
-  --rosewood: #5c4033;
+  --rosewood: #533129;
   --warm-cream: #f8f5ef;
   --vintage-blue: #6b8e9f;
   /* Semantic */
@@ -32,10 +31,11 @@ body.about-page #heading * {
   color: #fff !important;
 }
 body.about-page #heading .name_title {
-  font-family: "Caveat", cursive !important;
+  font-family: var(--jade-clement-font) !important;
 }
 body.about-page #heading .navbar__links {
-  font-family: "Kumbh Sans", sans-serif !important;
+  /* Match the rest of the about page typography; `.name_title` stays special */
+  font-family: inherit !important;
 }
 
 .c {
@@ -127,7 +127,7 @@ body.about-page #heading .navbar__links {
   position: relative;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(92, 64, 51, 0.12);
+  box-shadow: 0 4px 24px rgba(83, 49, 41, 0.12);
 }
 
 .slideshow-container img {
@@ -146,20 +146,25 @@ body.about-page #heading .navbar__links {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--warm-cream);
-  background: var(--vintage-blue);
-  font-size: 1.25rem;
+  /* Remove the visible circle background around arrows */
+  color: var(--rosewood);
+  background: transparent;
+  /* Make sure the arrow glyph is always clearly visible */
+  font-size: 1.7rem;
+  line-height: 1;
   font-weight: 600;
-  transition: background-color 0.2s ease;
+  transition: color 0.2s ease;
   user-select: none;
-  border-radius: 50%;
+  border-radius: 0;
+  text-decoration: none;
 }
 
 .prev { left: 0.5rem; }
 .next { right: 0.5rem; }
 
 .prev:hover, .next:hover {
-  background: var(--rosewood);
+  background: transparent;
+  color: var(--rosewood);
 }
 
 .numbertext {
@@ -168,7 +173,7 @@ body.about-page #heading .navbar__links {
   padding: 0.5rem 0.75rem;
   position: absolute;
   top: 0;
-  background: rgba(92, 64, 51, 0.6);
+  background: rgba(83, 49, 41, 0.6);
   border-radius: 0 0 8px 0;
 }
 
@@ -177,7 +182,7 @@ body.about-page #heading .navbar__links {
   height: 10px;
   width: 10px;
   margin: 0 4px;
-  background-color: rgba(92, 64, 51, 0.3);
+  background-color: rgba(83, 49, 41, 0.3);
   border-radius: 50%;
   display: inline-block;
   transition: background-color 0.2s ease;
@@ -194,7 +199,7 @@ body.about-page #heading .navbar__links {
 
 /* Section titles */
 .about_section_title {
-  font-family: "Caveat", cursive;
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 600;
   color: var(--rosewood);
@@ -251,7 +256,7 @@ body.about-page #heading .navbar__links {
 }
 
 .interest:hover {
-  box-shadow: 0 2px 12px rgba(92, 64, 51, 0.08);
+  box-shadow: 0 2px 12px rgba(83, 49, 41, 0.08);
   border-left-color: var(--rosewood);
 }
 

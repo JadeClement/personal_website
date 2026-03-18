@@ -1,6 +1,10 @@
 /* Connect */
+html{
+    background-color:#B0D2EC;
+}
 body{
     margin:0;
+    background-color:#B0D2EC;
 }
 .connect_body{
     width:100%;

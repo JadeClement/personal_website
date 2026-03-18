@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jade Clement - Revamp Test</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Kumbh+Sans:wght@400;600&family=Metal&display=swap">
+    <link rel="stylesheet" href="revamp-test.css">
+</head>
+<body>
+    <div class="sticky-wrapper">
+    <!-- Hero section with main image and rotating text -->
+    <section class="hero" id="hero">
+        <!-- Full-viewport hiking image (like home page) -->
+        <div class="hero-bg-image" id="hero-bg-image">
+            <img src="mountain1.jpg" alt="Hiking" id="hero-mountain-img">
+        </div>
+        
+        <div class="hero-content">
+            <div class="intro-text">
+                <h1>Hi, I'm <span class="name">Jade Clement</span></h1>
+                <p class="rotating-line">and I'm a <span id="rotating-word">student</span></p>
+            </div>
+            
+            <!-- Center visual - shrinks on scroll, icons appear when image gets small -->
+            <div class="center-visual" id="center-visual">
+                <div class="main-image-wrapper" id="main-image-wrapper">
+                    <img src="img1.PNG" alt="Jade" id="center-image" class="center-image">
+                </div>
+                <div class="icons-orbit" id="icons-orbit">
+                    <div class="orbit-icon" data-identity="student" title="Student">
+                        <img src="icon_student.png" alt="Student">
+                    </div>
+                    <div class="orbit-icon" data-identity="developer" title="Developer">
+                        <img src="icon_developer.png" alt="Developer">
+                    </div>
+                    <div class="orbit-icon" data-identity="triathlete" title="Triathlete">
+                        <img src="icon_triathlete.png" alt="Triathlete">
+                    </div>
+                    <div class="orbit-icon" data-identity="creator" title="Creator">
+                        <img src="icon_creator.png" alt="Creator">
+                    </div>
+                    <div class="orbit-icon" data-identity="adventurer" title="Adventurer">
+                        <img src="icon_adventurer.png" alt="Adventurer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sentinel: when this enters viewport, icons start falling (IntersectionObserver) -->
+    <div class="fall-trigger-sentinel" id="fall-trigger-sentinel" aria-hidden="true"></div>
+
+    <!-- Spacer for scroll - icons fall through this -->
+    <div class="scroll-spacer" id="scroll-spacer"></div>
+    </div>
+
+    <!-- Landing sections - icons fall into these -->
+    <section class="landing-sections" id="landing-sections">
+        <div class="developer-sticky-wrapper" id="developer-sticky-wrapper">
+        <div class="landing-row" id="developer-row">
+            <div class="landing-icon-wrapper" id="developer-icon-landing">
+                <div class="landing-icon" data-identity="developer">
+                    <img src="icon_developer.png" alt="Developer">
+                </div>
+            </div>
+            <div class="landing-content">
+                <h2>Developer</h2>
+                <div class="carousel-3d" id="carousel-3d">
+                    <div class="carousel-track" id="carousel-track">
+                        <div class="carousel-card" data-index="0" data-date="2025">
+                        <div class="flip-card" tabindex="0">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="flip-card-title">Full Stack Web Application</div>
+                                    <div class="flip-card-keywords">React · Node.js · PostgreSQL · AWS S3 · Club Management</div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="flip-card-meta">08/2025 - 09/2025</div>
+                                    <p class="flip-card-desc">Designed and built a club management platform serving 60+ active users using React.js, Node.js/Express and PostgreSQL. Integrated AWS S3 and Cloudfront, developed real-time workout signup and waitlist system, built an admin dashboard. <a href="https://www.uoft-tri.club/" target="_blank">View it here →</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="carousel-card" data-index="1" data-date="2024">
+                        <div class="flip-card" tabindex="0">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="flip-card-title">Software Engineering Internship</div>
+                                    <div class="flip-card-keywords">Django · PostgreSQL · AWS · Python · Node.js · Code Reviews</div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="flip-card-meta">05/2024 - 04/2025 · SingleKey</div>
+                                    <p class="flip-card-desc">As a software intern, I was actively involved in developing new features using Django and PostgreSQL on AWS, contributing to a robust and scalable backend. I participated in code reviews to maintain high standards of code quality and consistency across the team. My role included coding in Python for the backend and Node.js for the frontend, ensuring seamless integration and performance. Additionally, I researched new technologies and tools to enhance our platform, including potential AI projects for the future.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="carousel-card" data-index="2" data-date="2023">
+                        <div class="flip-card" tabindex="0">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="flip-card-title">Machine Learning Research Assistant</div>
+                                    <div class="flip-card-keywords">Diffusion Models · Echocardiogram · EF Regression · PyTorch</div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="flip-card-meta">05/2023 - 09/2023 · UBC Robotics & Control Lab</div>
+                                    <p class="flip-card-desc">Created a diffusion model that generates echocardiogram videos. Reproduced results of the paper Feature-conditioned Cascaded Video Diffusion Models for Precise Echocardiogram Synthesis—training an EF regression model and diffusion model, running evaluation, and training the EF model on ablated and generated data.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="carousel-card" data-index="3" data-date="2023">
+                        <div class="flip-card" tabindex="0">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="flip-card-title">Natural Language Projects</div>
+                                    <div class="flip-card-keywords">Sentiment Analysis · Prompt Engineering · LLM · NLP</div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="flip-card-meta">10/2023 - 12/2023</div>
+                                    <p class="flip-card-desc">Sentiment analysis on hotel review data; designed a prompt engineering experiment to evaluate various prompt styles for a pretrained LLM on information extraction from email chains.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="carousel-card" data-index="4" data-date="2023">
+                        <div class="flip-card" tabindex="0">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="flip-card-title">Machine Learning Capstone</div>
+                                    <div class="flip-card-keywords">CGANs · Object Detection · ResNet-18 · Perimeter AI</div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="flip-card-meta">08/2023 - 12/2023</div>
+                                    <p class="flip-card-desc">Collaborated with Perimeter AI on their data imbalance problem. Explored CGANs, Object Detection and Elastic Transform to generate new data, leading to a 5% testing accuracy increase on ResNet-18 for cancer detection on OCT scans.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="carousel-card" data-index="5" data-date="2023">
+                        <div class="flip-card" tabindex="0">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="flip-card-title">Web Development</div>
+                                    <div class="flip-card-keywords">JavaScript · HTML · CSS · Personal Website</div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="flip-card-meta">06/2023 - 08/2023</div>
+                                    <p class="flip-card-desc">I programmed this website! Learned to code in Javascript, HTML and CSS from scratch.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="carousel-card" data-index="6" data-date="2023">
+                        <div class="flip-card" tabindex="0">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="flip-card-title">Project Euler</div>
+                                    <div class="flip-card-keywords">Algorithms · Math · Problem Solving</div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="flip-card-meta">08/2023 - 2025</div>
+                                    <p class="flip-card-desc">Programming algorithms to solve complex math problems at <a href="https://projecteuler.net/about" target="_blank">projecteuler.net</a>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="carousel-card" data-index="7" data-date="2022">
+                        <div class="flip-card" tabindex="0">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="flip-card-title">Machine Learning Algorithms</div>
+                                    <div class="flip-card-keywords">K-means · SVM · RNN · Python · Sentiment</div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="flip-card-meta">08/2022 - 12/2022</div>
+                                    <p class="flip-card-desc">K-means clustering with optimal group selection, SVM and binary classifiers in Python, RNN for sentiment analysis on movie reviews.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="carousel-card" data-index="8" data-date="2022">
+                        <div class="flip-card" tabindex="0">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="flip-card-title">Self-Balancing Robot</div>
+                                    <div class="flip-card-keywords">Python · IMU · Inverted Pendulum · Control Loop</div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="flip-card-meta">02/2022 - 04/2022</div>
+                                    <p class="flip-card-desc">Team of 5 built a self-balancing robot using physics theory (inverted pendulum). Python program with IMU data, stepper motor control, and control loop—stayed upright for a record of 10 seconds!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="carousel-card" data-index="9" data-date="2021">
+                        <div class="flip-card" tabindex="0">
+                            <div class="flip-card-inner">
+                                <div class="flip-card-front">
+                                    <div class="flip-card-title">Biomedical Engineering Research</div>
+                                    <div class="flip-card-keywords">Lung CT · 3D Segmentation · Cardiovascular · UBC</div>
+                                </div>
+                                <div class="flip-card-back">
+                                    <div class="flip-card-meta">05/2021 - 08/2021 · UBC Centre for Heart and Innovation</div>
+                                    <p class="flip-card-desc">Quantitative lung analysis for cardiovascular disease biomarkers from Lung CT. Identified and segmented airways to create 3D models, evaluated 50 cardiac CT cases, and delivered a presentation to research professionals and doctors.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="landing-row" id="student-row">
+            <div class="landing-icon-wrapper" id="student-icon-landing">
+                <div class="landing-icon" data-identity="student">
+                    <img src="icon_student.png" alt="Student">
+                </div>
+            </div>
+            <div class="landing-content">
+                <h2>Student</h2>
+                <div class="edu-section">
+                    <div class="edu-block">
+                        <h3 class="edu-title">University of Toronto</h3>
+                        <p class="edu-subtitle">Engineering Science with a Major in Machine Intelligence</p>
+                        <p class="edu-courses-label">Relevant Courses:</p>
+                        <ul class="edu-courses-list">
+                            <li>MIE429: Machine Intelligence Capstone Design</li>
+                            <li>MIE424: Optimization in Machine Learning</li>
+                            <li>ECE324: Machine Intelligence, Software and Neural Networks</li>
+                            <li>ECE353: Systems Software</li>
+                            <li>ROB311: Artificial Intelligence</li>
+                            <li>CSC413: Neural Networks and Deep Learning</li>
+                            <li>ECE368: Probabilistic Reasoning</li>
+                            <li>ECE421: Introduction to Machine Learning</li>
+                            <li>ECE358: Foundations of Computing</li>
+                            <li>ECE355: Signals and Systems</li>
+                            <li>MIE451: Decision Support Systems</li>
+                            <li>ECE190: Data Structures and Algorithms</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="landing-row" id="triathlete-row">
+            <div class="landing-icon-wrapper" id="triathlete-icon-landing">
+                <div class="landing-icon" data-identity="triathlete">
+                    <img src="icon_triathlete.png" alt="Triathlete">
+                </div>
+            </div>
+            <div class="landing-content">
+                <h2>Triathlete</h2>
+                <p>Swim, bike, run—competing in triathlons and pushing limits. Content coming soon.</p>
+            </div>
+        </div>
+
+        <div class="landing-row" id="creator-row">
+            <div class="landing-icon-wrapper" id="creator-icon-landing">
+                <div class="landing-icon" data-identity="creator">
+                    <img src="icon_creator.png" alt="Creator">
+                </div>
+            </div>
+            <div class="landing-content">
+                <h2>Creator</h2>
+                <p>Building and designing—projects and ideas in progress. Content coming soon.</p>
+            </div>
+        </div>
+
+        <div class="landing-row" id="adventurer-row">
+            <div class="landing-icon-wrapper" id="adventurer-icon-landing">
+                <div class="landing-icon" data-identity="adventurer">
+                    <img src="icon_adventurer.png" alt="Adventurer">
+                </div>
+            </div>
+            <div class="landing-content">
+                <h2>Adventurer</h2>
+                <p>Exploring trails, peaks, and new experiences. Content coming soon.</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="revamp-test.js"></script>
+</body>
+</html>

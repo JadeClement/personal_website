@@ -1,13 +1,25 @@
 /*Projects*/
+html{
+    background-color:#B0D2EC;
+}
+/* Ensure body matches html for consistent backgrounds around the .page wrapper */
+body{
+    background-color:#B0D2EC;
+}
 /* #heading styles are defined in website.css for consistency */
+.page{
+    background-color:#B0D2EC;
+}
 .section_title{
     margin-left:auto;
     margin-right:auto;
     width:80vw;
     /*max-width:800px; */
+    color: #533129;
 }
 .pro_section{
-    background-color: rgb(216, 216, 216);
+    /* Transparent title-brown for a softer box background */
+    background-color: rgba(83, 49, 41, 0.18);
     width:80vw;
     margin-left:auto;
     margin-right:auto;
@@ -17,7 +29,8 @@
     /*max-width:800px;*/
 }
 .page_intro{
-    font-size:1.9rem;
+    font-size: var(--secondaryTitleFontSize);
+    font-family: var(--title-vintage);
 }
 .pro_date{
     font-size:13px;
@@ -29,6 +42,8 @@
 }
 .pro_title{
     font-size:18px;
+    font-family: var(--title-vintage);
+    font-weight: 700;
 }
 .pro_description{
     font-size:14px;
@@ -45,8 +60,9 @@
     margin-right:auto;
     padding:10px;
     text-decoration:underline;
-    font-size:20px;
-
+    font-size: 25px;
+    font-family: var(--title-vintage);
+    color: #533129;
 }
 
 /* Different Screen Widths 

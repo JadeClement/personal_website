@@ -1,0 +1,578 @@
+/* Revamp Test - Color scheme from palette: Silver Chalice, Pale Cornflower Blue, Pewter Blue, Silver Lake Blue, Royal Brown */
+:root {
+    --silver-chalice: #B5ACA3;
+    --pale-cornflower-blue: #B0D2EC;
+    --pewter-blue: #849DBB;
+    --silver-lake-blue: #648EC0;
+    --royal-brown: #533A33;
+
+    /* Icon fall animation - easy to tweak */
+    --fall-start-y: -45vh;  /* Start from orbit level - icons fall from center of screen */
+    --fall-duration: 1.1s;
+    --fall-ease: cubic-bezier(0.55, 0, 1, 0.45);      /* ease-in, gravity-like acceleration */
+    --fall-overshoot: 5px;
+    --snap-duration: 0.12s;
+    --snap-ease: cubic-bezier(0.33, 1, 0.68, 1);     /* punchy ease-out, magnet click */
+    --fall-delay-min: 0ms;
+    --fall-delay-max: 400ms;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Kumbh Sans', sans-serif;
+    background-color: var(--pale-cornflower-blue);
+    color: var(--royal-brown);
+    overflow-x: hidden;
+}
+
+/* Wrapper so hero sticks during spacer scroll - tall enough for slow picture cycle (5 viewports) */
+.sticky-wrapper {
+    min-height: 550vh;
+}
+
+/* Hero Section - full viewport hiking image like home page */
+.hero {
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    overflow: hidden;
+}
+
+/* Full-viewport hiking image - rectangle that rounds to circle as you scroll */
+.hero-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: opacity 0.1s ease-out, transform 0.1s ease-out, border-radius 0.1s ease-out;
+}
+
+.hero-bg-image img,
+#hero-mountain-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 55vh;
+}
+
+.intro-text {
+    text-align: center;
+    transition: transform 0.1s ease-out;
+    z-index: 1;
+}
+
+.intro-text h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(83, 58, 51, 0.4);
+    margin-bottom: 0.5rem;
+}
+
+.intro-text .name {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(83, 58, 51, 0.4);
+}
+
+.rotating-line {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(83, 58, 51, 0.5);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+/* Only show "and I'm a ___" when photos/center visual appear */
+.hero.icons-visible .rotating-line {
+    opacity: 1;
+}
+
+#rotating-word {
+    font-weight: 600;
+    min-width: 140px;
+    display: inline-block;
+    text-align: left;
+    transition: opacity 0.3s ease;
+}
+
+/* Center Visual - hidden initially, appears when image shrinks on scroll, positioned lower */
+.center-visual {
+    position: absolute;
+    top: 58%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.1s ease-out;
+}
+
+.center-visual.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.main-image-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(83, 58, 51, 0.35);
+}
+
+.center-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: opacity 0.4s ease;
+}
+
+/* Icons orbit - hidden until scroll, appear with center visual, larger spread around photos */
+.icons-orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.hero.icons-visible .icons-orbit {
+    opacity: 1;
+}
+
+/* Hide orbit icons once they've fallen to the bottom dock */
+body.dock-visible .hero.icons-visible .icons-orbit {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.orbit-icon {
+    position: absolute;
+    width: 132px;
+    height: 132px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.orbit-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.orbit-icon:hover img {
+    filter: brightness(1.1);
+}
+.icons-orbit .orbit-icon:nth-child(1):hover { transform: translate(-50%, -50%) scale(1.08); }
+.icons-orbit .orbit-icon:nth-child(2):hover { transform: translate(-50%, -50%) scale(1.08); }
+.icons-orbit .orbit-icon:nth-child(3):hover { transform: translate(-50%, -50%) scale(1.08); }
+.icons-orbit .orbit-icon:nth-child(4):hover { transform: translate(-50%, -50%) scale(1.08); }
+.icons-orbit .orbit-icon:nth-child(5):hover { transform: translate(-50%, -50%) scale(1.08); }
+
+/* Position icons in orbit - spread out more (globe up-right, bike down, pencil left) */
+.icons-orbit .orbit-icon:nth-child(1) { left: 18%; top: 15%; transform: translate(-50%, -50%); }   /* Student */
+.icons-orbit .orbit-icon:nth-child(2) { left: 82%; top: 50%; transform: translate(-50%, -50%); }   /* Developer */
+.icons-orbit .orbit-icon:nth-child(3) { left: 50%; top: 102%; transform: translate(-50%, -50%); }  /* Triathlete / bike - down more */
+.icons-orbit .orbit-icon:nth-child(4) { left: -3%; top: 50%; transform: translate(-50%, -50%); }   /* Creator / pencil - left more */
+.icons-orbit .orbit-icon:nth-child(5) { left: 103%; top: -2%; transform: translate(-50%, -50%); }    /* Adventurer / globe - up and right more */
+
+/* Sentinel for IntersectionObserver - triggers icon fall when picture cycle completes */
+.fall-trigger-sentinel {
+    position: absolute;
+    top: 500vh;  /* Align with end of picture cycle (5 viewports) */
+    left: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+}
+
+/* Scroll spacer - fills space so user scrolls through all pictures before landing sections */
+.scroll-spacer {
+    height: 450vh;
+    background: linear-gradient(180deg, var(--pale-cornflower-blue) 0%, var(--pewter-blue) 50%, var(--silver-chalice) 100%);
+}
+
+/* Landing sections - vertical stack, each section has horizontal space */
+.landing-sections {
+    padding: 6rem 2rem 8rem;
+    padding-bottom: 7rem; /* space for bottom dock */
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+/* Developer section: sticky so no vertical movement while timeline scrolls horizontally */
+.developer-sticky-wrapper {
+    min-height: calc(100vh + 2400px);
+}
+#developer-row {
+    position: sticky;
+    top: 0;
+}
+
+/* Each row full viewport width so icons line up with orbit positions (24%, 34%, 50%, 66%, 77%) */
+.landing-row {
+    position: relative;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    min-height: 80px;
+}
+
+.landing-icon-wrapper {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -60px;
+}
+/* Landed positions: match orbit viewport positions for consistent horizontal alignment */
+.landing-row#creator-row .landing-icon-wrapper { left: 24%; top: 0; }
+.landing-row#student-row .landing-icon-wrapper { left: 34%; top: 0; }
+.landing-row#triathlete-row .landing-icon-wrapper { left: 50%; top: 0; }
+.landing-row#developer-row .landing-icon-wrapper { left: 66%; top: 0; }
+.landing-row#adventurer-row .landing-icon-wrapper { left: 77%; top: 0; }
+
+.landing-icon {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.landing-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Icon fall keyframes: from orbit down to dock, gravity ease-in (no overshoot) */
+@keyframes icon-fall {
+    from { transform: translate(-50%, var(--fall-start-y, -30vh)); }
+    to { transform: translate(-50%, 0); }
+}
+
+/* Landed: icon stays in its section */
+.landing-icon.landed {
+    transform: translate(0, 0);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), left 0.6s ease, bottom 0.6s ease;
+}
+
+/* Falling: icon at bottom, front layer - animation triggered by JS when fall-triggered */
+.landing-icon.falling {
+    position: fixed;
+    bottom: 1.5rem;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, var(--fall-start-y, -30vh));
+    transition: opacity 0.25s ease;
+}
+/* Dock visible: show icons (opacity fades in for continuity with orbit) */
+body.dock-visible .landing-icon.falling {
+    opacity: 1;
+    pointer-events: auto;
+}
+/* Fall triggered: run gravity fall (delays set per-icon via inline --fall-delay) */
+body.icons-fall-triggered .landing-icon.falling {
+    will-change: transform;
+    animation: icon-fall var(--fall-duration) var(--fall-ease) var(--fall-delay, 0ms) 1 forwards;
+}
+/* Dock positions: match orbit viewport positions so icons don't shift horizontally when falling */
+.landing-row#creator-row .landing-icon.falling { left: 24%; }     /* matches orbit -3% (pencil, far left) */
+.landing-row#student-row .landing-icon.falling { left: 34%; }     /* matches orbit 18% (camera) */
+.landing-row#triathlete-row .landing-icon.falling { left: 50%; }  /* matches orbit 50% (bicycle, center) */
+.landing-row#developer-row .landing-icon.falling { left: 66%; }   /* matches orbit 82% (laptop) */
+.landing-row#adventurer-row .landing-icon.falling { left: 77%; }  /* matches orbit 103% (globe, far right) */
+
+.landing-content {
+    min-width: 0;
+    max-width: min(90vw, 720px);
+    margin: 0 auto;
+    /* Content flows in space away from icon - avoid overlap */
+}
+.landing-row#creator-row .landing-content { margin-left: 32%; margin-right: 10%; }
+.landing-row#student-row .landing-content { margin-left: 42%; margin-right: 10%; }
+.landing-row#triathlete-row .landing-content { margin-left: 0; margin-right: 0; margin-top: 90px; text-align: center; padding: 0 10%; }
+.landing-row#developer-row .landing-content { margin-left: auto; margin-right: auto; width: 100%; max-width: 900px; }
+.landing-row#adventurer-row .landing-content { margin-left: 10%; margin-right: 30%; }
+
+.landing-content h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 2rem;
+    color: var(--silver-lake-blue);
+    margin-bottom: 1rem;
+}
+
+.landing-content h3 {
+    font-size: 1rem;
+    color: var(--pewter-blue);
+    margin: 1rem 0 0.5rem;
+}
+
+.landing-content p {
+    line-height: 1.6;
+    color: var(--royal-brown);
+}
+
+/* Student section - Education blocks */
+.edu-section {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.edu-block {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(132, 157, 187, 0.3);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 4px 12px rgba(83, 58, 51, 0.15);
+}
+.edu-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--royal-brown);
+    margin-bottom: 0.25rem;
+}
+.edu-subtitle {
+    font-size: 0.9rem;
+    color: var(--pewter-blue);
+    margin-bottom: 0.75rem;
+    font-style: italic;
+}
+.edu-courses-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--silver-lake-blue);
+    margin: 0.5rem 0 0.25rem;
+}
+.edu-courses-list {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--royal-brown);
+    margin: 0;
+    padding-left: 1.25rem;
+}
+.edu-courses-list li {
+    margin-bottom: 0.2rem;
+}
+
+/* Developer section - Horizontal Carousel (no overlap, stays in bounds) */
+.carousel-3d {
+    perspective: 1400px;
+    margin-top: 2rem;
+    padding: 3rem 0;
+    min-height: min(50vh, 400px);
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.carousel-track {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 2.5rem;
+    padding: 1rem 2rem;
+    will-change: transform;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.carousel-card {
+    flex-shrink: 0;
+    width: 300px;
+    min-width: 300px;
+    transform-origin: center center;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+}
+
+.carousel-card.active {
+    pointer-events: auto;
+}
+.carousel-card.active .flip-card-front {
+    box-shadow: 0 12px 40px rgba(83, 58, 51, 0.3);
+    border-color: var(--silver-lake-blue);
+}
+
+.carousel-card .flip-card {
+    width: 100%;
+    min-height: 200px;
+}
+
+.carousel-card .flip-card-front,
+.carousel-card .flip-card-back {
+    min-height: 200px;
+}
+
+.carousel-card::before {
+    content: attr(data-date);
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--pewter-blue);
+    white-space: nowrap;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+/* Flip card */
+.flip-card {
+    flex: 1;
+    min-width: 0;
+    perspective: 1000px;
+    cursor: pointer;
+}
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    min-height: 100px;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+.flip-card:hover .flip-card-inner,
+.flip-card:focus-within .flip-card-inner {
+    transform: rotateY(180deg);
+}
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    min-height: 100px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 4px 12px rgba(83, 58, 51, 0.15);
+}
+.flip-card-front {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(132, 157, 187, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.flip-card-back {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(132, 157, 187, 0.3);
+    transform: rotateY(180deg);
+    overflow-y: auto;
+    max-height: 200px;
+}
+.flip-card-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--royal-brown);
+    line-height: 1.3;
+}
+.flip-card-keywords {
+    font-size: 0.8rem;
+    color: var(--pewter-blue);
+    line-height: 1.4;
+}
+.flip-card-meta {
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--pewter-blue);
+    margin-bottom: 0.5rem;
+}
+.flip-card-desc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--royal-brown);
+    margin: 0;
+}
+.flip-card-desc a {
+    color: var(--silver-lake-blue);
+    text-decoration: none;
+}
+.flip-card-desc a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .landing-row {
+        max-width: min(90vw, 720px) !important;
+    }
+    .carousel-card {
+        width: 260px;
+        min-width: 260px;
+    }
+    .carousel-card .flip-card-front,
+    .carousel-card .flip-card-back {
+        min-height: 180px;
+    }
+    /* Same viewport-relative positions on mobile */
+    .landing-row#creator-row .landing-icon.falling { left: 24%; }
+    .landing-row#student-row .landing-icon.falling { left: 34%; }
+    .landing-row#triathlete-row .landing-icon.falling { left: 50%; }
+    .landing-row#developer-row .landing-icon.falling { left: 66%; }
+    .landing-row#adventurer-row .landing-icon.falling { left: 77%; }
+}
+
+/* Accessibility: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    /* Simpler fall: no overshoot, instant snap */
+    body.icons-fall-triggered .landing-icon.falling {
+        animation: none;
+        transform: translate(-50%, 0);
+    }
+}
+

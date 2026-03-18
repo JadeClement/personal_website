@@ -1,14 +1,14 @@
 /*Projects*/
 html{
-    background-color:#B0D2EC;
+    background-color:#B0D2EC !important;
 }
 /* Ensure body matches html for consistent backgrounds around the .page wrapper */
 body{
-    background-color:#B0D2EC;
+    background-color:#B0D2EC !important;
 }
 /* #heading styles are defined in website.css for consistency */
 .page{
-    background-color:#B0D2EC;
+    background-color:#B0D2EC !important;
 }
 .section_title{
     margin-left:auto;

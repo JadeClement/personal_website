@@ -24,9 +24,6 @@ document.getElementById("heading").innerHTML = `
             <li class="navbar_item">
                 <a href="./about.html" class="navbar__links" id="about-page">About Me</a>
             </li>
-            <li class="navbar_item">
-                <a href="./connect.html" class="navbar__links" id="connect-page">Connect</a>
-            </li>
             
         </ul>
     </div>
@@ -98,13 +95,30 @@ setActiveNavLink();
 // Some pages load `website.js` before the `.footer` element exists, so we inject after DOM is ready.
 const emailAddress = "jadecathclement@gmail.com";
 const linkedInUrl = "https://www.linkedin.com/in/jadeclement-888/";
+const instagramUrl = "https://www.instagram.com/jadeclement__/";
+const resumeUrl = "Jade_Resume.pdf";
 
 function injectFooterLinks() {
     const footerHtml = `
-        <div class="footer_links">
-            <a class="footer_link" href="mailto:${emailAddress}" aria-label="Email Jade Clement">${emailAddress}</a>
-            <span class="footer_separator">|</span>
-            <a class="footer_link" href="${linkedInUrl}" target="_blank" rel="noopener noreferrer" aria-label="Jade Clement on LinkedIn">LinkedIn</a>
+        <div class="footer_content">
+            <div class="footer_connect_icons" aria-label="Contact links">
+                <a class="footer_connect_icon" href="mailto:${emailAddress}" aria-label="Email Jade Clement">
+                    <img class="footer_icon_img" src="images/mail.png" alt="" />
+                </a>
+                <a class="footer_connect_icon" href="${linkedInUrl}" target="_blank" rel="noopener noreferrer" aria-label="Jade Clement on LinkedIn">
+                    <img class="footer_icon_img" src="images/linkedin.png" alt="" />
+                </a>
+                <a class="footer_connect_icon" href="${instagramUrl}" target="_blank" rel="noopener noreferrer" aria-label="Jade Clement on Instagram">
+                    <img class="footer_icon_img" src="images/instagram.png" alt="" />
+                </a>
+                <a class="footer_connect_icon footer_resume_icon" href="${resumeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Jade Clement Resume">
+                    <img class="footer_icon_img" src="images/resume-7.png" alt="" />
+                </a>
+            </div>
+            <div class="footer_connect_line">
+                Whether you want to work with me, grab coffee and chat, or climb a mountain together,<br>
+                I love creating new connections and I can't wait to meet you!
+            </div>
         </div>
     `;
 

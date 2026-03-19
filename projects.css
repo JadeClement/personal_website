@@ -28,20 +28,12 @@ body{
     border-radius: 8px;
     /*max-width:800px;*/
     border: 1px solid rgba(83, 49, 41, 0.18);
-    transition: transform 160ms ease, border-color 200ms ease;
-}
-
-.pro_section:hover{
-    transform: translateY(-4px);
-    border-color: rgba(83, 49, 41, 0.32);
+    transition: border-color 200ms ease;
 }
 
 @media (prefers-reduced-motion: reduce){
     .pro_section{
         transition: none;
-    }
-    .pro_section:hover{
-        transform: none;
     }
 }
 .page_intro{

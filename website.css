@@ -124,7 +124,7 @@ a {
     display:flex !important;
     /* Keep the name on a single line on all screen sizes */
     font-size: clamp(26px, 7.5vw, 36px) !important;
-    font-family: var(--jade-clement-font) !important;
+    font-family: var(--title-vintage) !important;
     margin: 0 !important;
     padding: 0 !important;
     white-space: nowrap !important;
@@ -267,7 +267,7 @@ a {
 
 /* Intro Section */
 .intro_container{
-    /* Match hero background exactly to profile image backdrop (me_old.jpg corner color) */
+    /* Match hero background exactly to profile image backdrop (images/me_old.jpg corner color) */
     background-color: #98a2ac;
     width:100vw;
     height:100vh;

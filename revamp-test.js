@@ -14,11 +14,11 @@
 
     const IDENTITIES = ['student', 'developer', 'triathlete', 'creator', 'adventurer'];
     const IMAGE_MAP = {
-        student: 'img1.PNG',
-        developer: 'img4.PNG',
-        triathlete: 'img5.PNG',
-        creator: 'img6.PNG',
-        adventurer: 'mountain1.jpg'
+        student: 'images/img1.PNG',
+        developer: 'images/img4.PNG',
+        triathlete: 'images/img5.PNG',
+        creator: 'images/img6.PNG',
+        adventurer: 'images/mountain1.jpg'
     };
 
     const rotatingWord = document.getElementById('rotating-word');

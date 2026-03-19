@@ -12,32 +12,26 @@
 </head>
 <body class="about-page">
     <div id="heading"></div>
-    <div class="c c1">
-        <div class="about_section" id="about_intro">
-            <div class="about_intro_layout">
-                <div class="about1 about_intro_text text">
-                    <h1 class="about_who">Who am I?</h1>
-                    <p class="about_intro">I believe it's important to know people outside of university and jobs because it is too often that you don't truly know those who you work alongside every day. Everyone is multi-faceted and has sides of themselves you never would believe existed. I love hearing peoples' stories and so I thought I would share mine!</p>
-                    <p>First, I'll mention some <a href="#about_quickfacts">quick facts</a> about myself, then describe my <a href="#about_interests">interests, passions and hobbies</a>, and finally state <a href="#about_manifesto">my personal outlook</a>.</p>
-                </div>
-
-                <div class="about1 slideshow-container">
+    <section class="about-scroll-section" aria-label="About slideshow with scrolling text">
+        <div class="about-scroll-layout">
+            <div class="about-slideshow-column">
+                <div class="slideshow-container about1" aria-label="Personal photo slideshow">
                     <div class="part1">
                         <div class="mySlides fade">
                             <div class="numbertext">1 / 4</div>
-                            <img src="img1.PNG" alt="Personal photo 1" width="300" height="400">
+                            <img src="images/img1.PNG" alt="Personal photo 1" width="300" height="400">
                         </div>
                         <div class="mySlides fade">
                             <div class="numbertext">2 / 4</div>
-                            <img src="img4.PNG" alt="Personal photo 2" width="300" height="400">
+                            <img src="images/img4.PNG" alt="Personal photo 2" width="300" height="400">
                         </div>
                         <div class="mySlides fade">
                             <div class="numbertext">3 / 4</div>
-                            <img src="img6.PNG" alt="Personal photo 3" width="300" height="400">
+                            <img src="images/img6.PNG" alt="Personal photo 3" width="300" height="400">
                         </div>
                         <div class="mySlides fade">
                             <div class="numbertext">4 / 4</div>
-                            <img src="img5.PNG" alt="Personal photo 4" width="300" height="400">
+                            <img src="images/img5.PNG" alt="Personal photo 4" width="300" height="400">
                         </div>
                         <a class="prev" onclick="plusSlides(-1)" aria-label="Previous slide">&#10094;</a>
                         <a class="next" onclick="plusSlides(1)" aria-label="Next slide">&#10095;</a>
@@ -50,48 +44,50 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="c c2">
-        <div class="about_section" id="about_quickfacts">
-            <h2 class="about_section_title">Quick Facts About Me</h2>
-            <ol class="quickfacts_list">
-                <li>I'm twenty-three years old</li>
-                <li>I am a student of Engineering Science at the University of Toronto</li>
-                <li>I was born and raised in Vancouver, Canada</li>
-                <li>I am an avid hiker/backpacker</li>
-                <li>I'm a triathlete</li>
-            </ol>
-        </div>
-    </div>
+            <div class="about-scroll-text-column">
+                <div class="about-slide-caption" data-slide="1" aria-label="Slide 1 content">
+                    <h1 class="about_who">Who am I?</h1>
+                    <p class="about_intro">I believe it's important to know people outside of university and jobs because it is too often that you don't truly know those who you work alongside every day. Everyone is multi-faceted and has sides of themselves you never would believe existed. I love hearing peoples' stories and so I thought I would share mine!</p>
+                    <p>First, I'll mention some <a href="#about_quickfacts">quick facts</a> about myself, then describe my <a href="#about_interests">interests, passions and hobbies</a>, and finally state <a href="#about_manifesto">my personal outlook</a>.</p>
+                </div>
 
-    <div class="c c3">
-        <div class="about_section" id="about_interests">
-            <h2 class="about_section_title">Interests, Passions and Hobbies</h2>
-            <ul class="interests_list">
-                <li class="interest"><b>Hiking</b>: Walking through forests, camping on mountain peaks, and swimming in lakes — this sounds like the perfect adventure to me.</li>
-                <li class="interest"><b>Triathlons</b>: Since the age of 8 I've been competing in triathlons which are endurance races where you swim, bike and run.</li>
-                <li class="interest"><b>Photography</b>: This summer, I picked up a camera and I haven't been able to put it down. Capturing moments is a skill and an art, one that I would like to improve to better hold on to memories and share stories.</li>
-                <li class="interest"><b>Geography</b>: I know each country and capital of the world (on a good day).</li>
-                <li class="interest"><b>Languages</b>: I can speak advanced French and I want to start learning Spanish!</li>
-            </ul>
-        </div>
-    </div>
+                <div class="about-slide-caption" data-slide="2" id="about_quickfacts">
+                    <h2 class="about_section_title">Quick Facts About Me</h2>
+                    <ol class="quickfacts_list">
+                        <li>I'm twenty-three years old</li>
+                        <li>I am a student of Engineering Science at the University of Toronto</li>
+                        <li>I was born and raised in Vancouver, Canada</li>
+                        <li>I am an avid hiker/backpacker</li>
+                        <li>I'm a triathlete</li>
+                    </ol>
+                </div>
 
-    <div class="c c4">
-        <div class="about_section" id="about_manifesto">
-            <h2 class="about_section_title">My Personal Outlook</h2>
-            <p id="manifesto_intro">These statements are inspired by my core values and beliefs. They influence my everyday actions and motivate me to be the best version of myself.</p>
-            <ul class="manifesto_list">
-                <li class="manifesto_item"><span class="m1">Carpe Diem</span><br><span class="m2">to make the most out of every second of every day</span></li>
-                <li class="manifesto_item"><span class="m1">Enjoy the Journey</span><br><span class="m2">to live in the moment and be content with every step of the process</span></li>
-                <li class="manifesto_item"><span class="m1">Seek Discomfort</span><br><span class="m2">to push your boundaries and expand who you are to discover what you are capable of</span></li>
-                <li class="manifesto_item"><span class="m1">Do It Every Single Day</span><br><span class="m2">to climb the mountain you must take each step</span></li>
-                <li class="manifesto_item"><span class="m1">Lifelong Learning</span><br><span class="m2">to have a true passion for my studies and be curious about everything</span></li>
-            </ul>
+                <div class="about-slide-caption" data-slide="3" id="about_interests">
+                    <h2 class="about_section_title">Interests, Passions and Hobbies</h2>
+                    <ul class="interests_list">
+                        <li class="interest"><b>Hiking</b>: Walking through forests, camping on mountain peaks, and swimming in lakes — this sounds like the perfect adventure to me.</li>
+                        <li class="interest"><b>Triathlons</b>: Since the age of 8 I've been competing in triathlons which are endurance races where you swim, bike and run.</li>
+                        <li class="interest"><b>Photography</b>: This summer, I picked up a camera and I haven't been able to put it down. Capturing moments is a skill and an art, one that I would like to improve to better hold on to memories and share stories.</li>
+                        <li class="interest"><b>Geography</b>: I know each country and capital of the world (on a good day).</li>
+                        <li class="interest"><b>Languages</b>: I can speak advanced French and I want to start learning Spanish!</li>
+                    </ul>
+                </div>
+
+                <div class="about-slide-caption" data-slide="4" id="about_manifesto">
+                    <h2 class="about_section_title">My Personal Outlook</h2>
+                    <p id="manifesto_intro">These statements are inspired by my core values and beliefs. They influence my everyday actions and motivate me to be the best version of myself.</p>
+                    <ul class="manifesto_list">
+                        <li class="manifesto_item"><span class="m1">Carpe Diem</span><br><span class="m2">to make the most out of every second of every day</span></li>
+                        <li class="manifesto_item"><span class="m1">Enjoy the Journey</span><br><span class="m2">to live in the moment and be content with every step of the process</span></li>
+                        <li class="manifesto_item"><span class="m1">Seek Discomfort</span><br><span class="m2">to push your boundaries and expand who you are to discover what you are capable of</span></li>
+                        <li class="manifesto_item"><span class="m1">Do It Every Single Day</span><br><span class="m2">to climb the mountain you must take each step</span></li>
+                        <li class="manifesto_item"><span class="m1">Lifelong Learning</span><br><span class="m2">to have a true passion for my studies and be curious about everything</span></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
     <script src="website.js"></script>
     <script src="about.js"></script>

@@ -66,6 +66,203 @@ body.about-page #heading .navbar__links {
   padding: 3rem 1.5rem;
 }
 
+.about-scroll-section {
+  background-color: var(--warm-cream);
+  width: 100%;
+}
+
+.about-scroll-layout {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 92rem;
+  margin: 0 auto;
+  /* Keep the sticky stack from leaving extra blank scroll at the end. */
+  padding: 4rem 1.5rem 0;
+  box-sizing: border-box;
+}
+
+.about-slideshow-column {
+  flex: 0 0 340px;
+  position: sticky;
+  top: 20vh;
+  align-self: flex-start;
+  z-index: 2;
+  order: 2;
+}
+
+/* `.about1` adds padding globally; we don't want that around the sticky panel. */
+.about-slideshow-column .slideshow-container.about1 {
+  padding: 0;
+}
+
+.about-scroll-text-column {
+  flex: 1;
+  min-width: 0;
+  order: 1;
+}
+
+.about-slide-caption {
+  position: relative;
+  background-color: var(--warm-cream);
+  min-height: 80vh;
+  padding-bottom: 0;
+}
+
+.about-scroll-text-column .about_section_title {
+  text-align: left;
+}
+
+/* Desktop: keep the intro feeling "anchored" while the next section scrolls up */
+@media (min-width: 1001px) {
+  .about-slide-caption[data-slide="1"] {
+    position: sticky;
+    top: 10vh;
+    z-index: 1;
+    /* Make the intro block shorter so the next section can rise sooner. */
+    min-height: 45vh;
+    padding-bottom: 2rem;
+  }
+
+  /* Push sections down so they don't appear early. */
+  .about-slide-caption[data-slide="2"],
+  .about-slide-caption[data-slide="3"],
+  .about-slide-caption[data-slide="4"] {
+    margin-top: 120vh;
+  }
+
+  /*
+   * Sticky "stack": when Quick Facts hits the sticky top it stays there,
+   * then Interests overlays it, and Outlook overlays Interests.
+   */
+  .about-slide-caption[data-slide="2"] {
+    position: sticky;
+    top: 10vh;
+    z-index: 2;
+  }
+
+  .about-slide-caption[data-slide="3"] {
+    position: sticky;
+    top: 10vh;
+    z-index: 3;
+  }
+
+  .about-slide-caption[data-slide="4"] {
+    position: sticky;
+    top: 10vh;
+    z-index: 4;
+  }
+}
+
+/* Mobile/tablet: disable sticky panel and let content stack normally. */
+@media (max-width: 1000px) {
+  .about-scroll-layout {
+    flex-direction: column;
+    gap: 1.75rem;
+    padding: 2.5rem 1rem 4.5rem;
+  }
+
+  .about-slideshow-column {
+    position: relative;
+    top: auto;
+    flex: initial;
+    width: 100%;
+    order: 0; /* restore slideshow to top on stacked layout */
+  }
+
+  .about-slide-caption {
+    min-height: auto;
+    padding-bottom: 2.5rem;
+  }
+
+  .about-scroll-text-column .about_section_title {
+    text-align: center;
+  }
+}
+
+.about-page-layout {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.about-slideshow-stick {
+  display: block;
+}
+
+/* Desktop: lock slideshow in a left sticky column */
+@media (min-width: 1001px) {
+  .about-page-layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    column-gap: 3rem;
+    align-items: start;
+    grid-template-areas:
+      "slideshow intro"
+      "slideshow quickfacts"
+      "slideshow interests"
+      "slideshow outlook";
+  }
+
+  /* Flatten the intro wrappers so its text + slideshow become direct grid items. */
+  .about-intro {
+    display: contents;
+  }
+
+  #about_intro {
+    display: contents;
+  }
+
+  .about_intro_layout {
+    display: contents;
+  }
+
+  .about-quickfacts {
+    grid-area: quickfacts;
+  }
+
+  .about-interests {
+    grid-area: interests;
+  }
+
+  .about-outlook {
+    grid-area: outlook;
+  }
+
+  .about-slideshow-stick {
+    grid-area: slideshow;
+    position: sticky;
+    top: 80px; /* sits below the sticky header/navbar */
+    align-self: start;
+    padding: 3rem 0;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Keep content constrained to the right column. */
+  .about_intro_text.about1 {
+    grid-area: intro;
+    padding: 3rem 1.5rem; /* replicate the spacing from the removed #about_intro box */
+    width: min(100%, 72rem);
+    margin: 0 auto;
+    box-sizing: border-box;
+    flex: initial; /* not a flex item anymore on desktop */
+    min-width: 0;
+  }
+
+  /* Prevent double-padding: we apply spacing to the sticky wrapper instead. */
+  .about-slideshow-stick .slideshow-container.about1 {
+    padding: 0;
+  }
+
+  .about_section {
+    width: min(100%, 72rem);
+    margin: 0 auto;
+  }
+}
+
 .about1 {
   padding: 1.5rem 0;
 }

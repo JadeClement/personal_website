@@ -456,10 +456,19 @@ a {
     /* Match hero background exactly to profile image backdrop (images/me_old.jpg corner color) */
     background-color: #98a2ac;
     width:100vw;
-    height:100vh;
+    /* At least one viewport tall for the hero, but grow with bio so Recently always starts below. */
+    min-height: 100vh;
+    height: auto;
     position:relative;
     min-width:100vw;
-    padding-bottom:50px;
+    padding-bottom: 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.intro_container > .crop-wrapper{
+    flex-shrink: 0;
 }
 #mountain_img {
     width: 100vw;
@@ -492,10 +501,23 @@ a {
 }
 
 #intro{
-    margin:auto;
-    height:250px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* Fill space under the mountain; vertically center photo + welcome copy as a group. */
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.75rem, 2.5vw, 1.25rem);
+    width: min(1200px, 100%);
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    padding: clamp(0.75rem, 2vw, 1.25rem) clamp(0.65rem, 2.5vw, 1rem) clamp(1rem, 2.5vw, 1.75rem);
+    box-sizing: border-box;
     position: relative;
-    
+    min-height: 0;
 }
 
 .typewriter{
@@ -525,10 +547,21 @@ a {
     background-color: transparent;
 }
 .welcome{
-    position:absolute;
-    padding:20px;
-    vertical-align: middle;
-    font-size:20px;
+    position: static;
+    padding: 12px;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+
+#intro .w1{
+    flex: 0 0 auto;
+}
+
+#intro .w2{
+    flex: 1 1 280px;
+    max-width: 42rem;
+    min-width: min(100%, 260px);
+    line-height: 1.65;
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -593,20 +626,11 @@ a {
         font-size:100px;
         top:400px;
     }
-    #intro{
-        width:1200px;
-    }
-    .w1 {
-        left:300px;
-    }
-    .w2 {
-        left:600px;
-    }
 }
 
 @media screen and (max-width: 1200px){
     #intro{
-        width:800px;
+        width: min(800px, 100%);
     }
     #mountain_image{
         height:80px;
@@ -615,12 +639,6 @@ a {
         --hero-gutter: clamp(1rem, 4.5vw, 3rem);
         left: var(--hero-gutter);
         top: clamp(10rem, 25vw, 15rem);
-    }
-    .w1 {
-        left:0;
-    }
-    .w2 {
-        left:300px;
     }
 }
 
@@ -637,10 +655,15 @@ a {
         font-size:60px;
     }
     #intro{
-        width:80vw;
-        height: 400px;
-        margin-top:-80px;
-        
+        width: min(80vw, 100%);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    #intro .w2{
+        text-align: left;
+        max-width: 36rem;
     }
     .intro_line{
         --hero-gutter: 1rem;
@@ -656,15 +679,6 @@ a {
     .typewriter{
         font-size: 1.45em;
         min-width: 11ch;
-    }
-    .welcome{
-        position:absolute;
-    }
-    .w1{
-        left:50px;
-    }
-    .w2{
-        left:250px;
     }
     #profile_img{
         height: 250px;
@@ -699,20 +713,17 @@ a {
         min-width: 9.5ch;
     }
     #intro{
-        width:350px;
-        height: 400px;
-        margin-top:-250px;
-        
+        width: 100%;
+        max-width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
     }
-    .welcome{
-        position:absolute;
-    }
-    .w1{
-        left:50px;
-    }
-    .w2{
-        left:0;
-        top:260px;
+    #intro .w2{
+        text-align: left;
+        min-width: 0;
     }
     #profile_img{
         height: 250px;
@@ -748,6 +759,8 @@ a {
     padding: 60px 20px 90px;
     box-sizing: border-box;
     background-color: #98a2ac;
+    /* Clear band below the intro stack (photo + copy + hero). */
+    border-top: 1px solid rgba(83, 49, 41, 0.12);
 }
 
 .recently_title{
@@ -775,9 +788,10 @@ a {
 
 .recently_card{
     width: min(320px, 86vw);
-    height: 220px;
+    height: 240px;
     cursor: pointer;
     perspective: 1000px;
+    overscroll-behavior: contain;
 }
 
 .recently_cards .flip-card-inner{
@@ -788,20 +802,18 @@ a {
     transform-style: preserve-3d;
 }
 
+/* Desktop: hover/focus; all devices: click/tap/keyboard toggle via `.is-flipped` (see website.js). */
 .recently_cards .flip-card:hover .flip-card-inner,
-.recently_cards .flip-card:focus-within .flip-card-inner{
+.recently_cards .flip-card:focus-within .flip-card-inner,
+.recently_cards .flip-card.is-flipped .flip-card-inner{
     transform: rotateY(180deg);
 }
 
-/* Touch devices: flip only when tapped (toggle via `.is-flipped`). */
+/* Touch: ignore sticky :hover / :focus-within so only `.is-flipped` (tap) controls the face. */
 @media (hover: none) and (pointer: coarse){
     .recently_cards .flip-card:hover .flip-card-inner,
     .recently_cards .flip-card:focus-within .flip-card-inner{
         transform: rotateY(0deg);
-    }
-
-    .recently_cards .flip-card.is-flipped .flip-card-inner{
-        transform: rotateY(180deg);
     }
 }
 
@@ -826,7 +838,7 @@ a {
 .recently_cards .flip-card-back{
     transform: rotateY(180deg);
     background: rgba(255, 255, 255, 0.96);
-    overflow-y: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

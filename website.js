@@ -274,7 +274,7 @@ if (document.readyState === "loading") {
     initRoleTypewriter();
 }
 
-// Flip cards on mobile tap.
+// Flip cards: tap/click toggles `.is-flipped` (all devices). CSS adds hover/focus on fine pointers; coarse touch uses class only.
 function initTapFlipCards() {
     const flipCards = document.querySelectorAll(".recently_cards .flip-card");
     if (!flipCards.length) return;

@@ -2,33 +2,41 @@
 //print(document.URL)
 document.getElementsByClassName("header").innerHTML = "Hello World";
 
-document.getElementById("heading").innerHTML = `
-    <nav class = "navbar">
-    <div class="name_title nav_section ">Jade Clement</div>
-    <div class = "navbar_container"></div>
-        <div class="navbar__toggle" id="mobile-menu">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+const headingEl = document.getElementById("heading");
+if (headingEl) {
+    headingEl.innerHTML = `
+    <nav class="navbar">
+        <div class="name_title nav_section">Jade Clement</div>
+        <div class="navbar__container">
+            <ul class="navbar__menu nav_section" id="navbar-menu">
+                <li class="navbar_item">
+                    <a href="./website.html" class="navbar__links" id="main-page">Home</a>
+                </li>
+                <li class="navbar_item">
+                    <a href="./education.html" class="navbar__links" id="edu-page">Education</a>
+                </li>
+                <li class="navbar_item">
+                    <a href="./projects.html" class="navbar__links" id="home-page">Experience</a>
+                </li>
+                <li class="navbar_item">
+                    <a href="./about.html" class="navbar__links" id="about-page">About Me</a>
+                </li>
+            </ul>
         </div>
-        <ul class="navbar__menu nav_section">
-            <li class="navbar_item">
-                <a href="./website.html" class="navbar__links" id="main-page">Home</a>
-            </li>
-            <li class="navbar_item">
-                <a href="./education.html" class="navbar__links" id="edu-page">Education</a>
-            </li>
-            <li class="navbar_item">
-                <a href="./projects.html" class="navbar__links" id="home-page">Experience</a>
-            </li>
-            <li class="navbar_item">
-                <a href="./about.html" class="navbar__links" id="about-page">About Me</a>
-            </li>
-            
-        </ul>
-    </div>
+        <div class="navbar__toggle" id="mobile-menu" role="button" tabindex="0" aria-label="Open menu" aria-expanded="false" aria-controls="navbar-menu">
+            <span class="navbar__toggle-bars" aria-hidden="true">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </span>
+            <svg class="navbar__toggle-x" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <line x1="5" y1="5" x2="19" y2="19" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                <line x1="19" y1="5" x2="5" y2="19" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+        </div>
     </nav>
 `;
+}
 
 const menu = document.querySelector("#mobile-menu");
 const menuLinks = document.querySelector(".navbar__menu")
@@ -78,18 +86,81 @@ function setActiveNavLink() {
 }
 
 
-//display mobile menu
-const mobileMenu = () => {
-    // Keep in sync with `#mobile-menu.is-activating` styles in `website.css`
-    menu.classList.toggle("is-activating")
-    menuLinks.classList.toggle("activating")
-    nav.classList.toggle("activated")
-    name1.classList.toggle('hide')
+// Mobile nav breakpoint must match `website.css` (hamburger + collapsible menu).
+const MOBILE_NAV_MQ = window.matchMedia("(max-width: 1200px)");
+
+/** Close the mobile drawer if it is open (idempotent). */
+function closeMobileMenu() {
+    if (!menu || !menuLinks || !nav || !name1) return;
+    if (!menu.classList.contains("is-activating")) return;
+    menu.classList.remove("is-activating");
+    menuLinks.classList.remove("activating");
+    nav.classList.remove("activated");
+    nav.removeAttribute("data-menu-open");
+    name1.classList.remove("hide");
+    menu.setAttribute("aria-expanded", "false");
+    menu.setAttribute("aria-label", "Open menu");
+    menuLinks.style.maxHeight = "";
 }
 
-menu.addEventListener("click", mobileMenu);
+function closeMobileMenuIfDesktop() {
+    /* Only reset when leaving the mobile layout (wider than breakpoint). */
+    if (MOBILE_NAV_MQ.matches) return;
+    closeMobileMenu();
+}
+
+// display mobile menu (toggle hamburger / X)
+const mobileMenu = () => {
+    if (!menu || !menuLinks || !nav || !name1) return;
+    if (!MOBILE_NAV_MQ.matches) return;
+
+    const isOpen = menu.classList.toggle("is-activating");
+    menuLinks.classList.toggle("activating", isOpen);
+    nav.classList.toggle("activated", isOpen);
+    if (isOpen) {
+        nav.setAttribute("data-menu-open", "true");
+    } else {
+        nav.removeAttribute("data-menu-open");
+    }
+    name1.classList.toggle("hide", isOpen);
+    menu.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    menu.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+};
+
+if (menu) {
+    menu.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        mobileMenu();
+    });
+    menu.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            mobileMenu();
+        }
+    });
+}
+
+MOBILE_NAV_MQ.addEventListener?.("change", closeMobileMenuIfDesktop);
+// Safari < 14
+if (!MOBILE_NAV_MQ.addEventListener) {
+    MOBILE_NAV_MQ.addListener(closeMobileMenuIfDesktop);
+}
 
 setActiveNavLink();
+
+// Collapse mobile menu when any nav link is clicked (delegation = reliable on all pages).
+if (nav) {
+    nav.addEventListener(
+        "click",
+        (e) => {
+            const a = e.target.closest("a.navbar__links");
+            if (!a || !nav.contains(a)) return;
+            closeMobileMenu();
+        },
+        true
+    );
+}
 
 // Inject shared footer links on all pages.
 // Some pages load `website.js` before the `.footer` element exists, so we inject after DOM is ready.
@@ -264,5 +335,62 @@ if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initIntroTitleLift);
 } else {
     initIntroTitleLift();
+}
+
+// Automatic image loading strategy across all pages.
+// - Keep the first important in-view image eager for fast paint.
+// - Load the rest lazily and decode asynchronously.
+function initAutoImageLoading() {
+    const images = Array.from(document.querySelectorAll("img"));
+    if (!images.length) return;
+
+    // Prefer obvious hero/profile images as high-priority if present.
+    const prioritySelectors = [
+        "#mountain_img",
+        "#profile_img",
+        ".animated_image",
+        ".mySlides img",
+        ".school_icon",
+    ];
+
+    let priorityImage = null;
+    for (const selector of prioritySelectors) {
+        const match = document.querySelector(selector);
+        if (match && match.tagName === "IMG") {
+            priorityImage = match;
+            break;
+        }
+    }
+    if (!priorityImage) priorityImage = images[0];
+
+    images.forEach((img) => {
+        // Respect any explicit per-image overrides already set in HTML.
+        if (!img.hasAttribute("decoding")) {
+            img.setAttribute("decoding", "async");
+        }
+
+        if (img === priorityImage) {
+            if (!img.hasAttribute("loading")) {
+                img.setAttribute("loading", "eager");
+            }
+            if (!img.hasAttribute("fetchpriority")) {
+                img.setAttribute("fetchpriority", "high");
+            }
+            return;
+        }
+
+        if (!img.hasAttribute("loading")) {
+            img.setAttribute("loading", "lazy");
+        }
+        if (!img.hasAttribute("fetchpriority")) {
+            img.setAttribute("fetchpriority", "low");
+        }
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAutoImageLoading);
+} else {
+    initAutoImageLoading();
 }
 

@@ -23,6 +23,7 @@ body{
 }
 .school_icon {
     position:absolute;
+    left: 16px;
 }
 .edu_block{
     margin-left:150px;
@@ -37,12 +38,15 @@ body{
 }
 .edu_subtitle{
     font-size:1.2rem;
+    margin-bottom: 10px;
 }
 .edu_courses{
     font-size: 1.1rem;
+    font-style: italic;
 }
 .edu_courses_list{
     font-size:1rem;
+    margin-left: 12px;
 }
 ul li { padding: 5px 0px; }
 

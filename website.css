@@ -53,7 +53,9 @@ a {
 /* NavBar Section */
 .navbar {
     background: #3b6694 !important;
-    height: 60px !important;
+    /* Must fit .navbar__container / links (80px); a shorter fixed height + overflow-x:hidden forces overflow-y:auto and a header scrollbar */
+    min-height: 60px !important;
+    height: auto !important;
     width: 100% !important;
     display: flex !important;
     justify-content: space-between !important;
@@ -61,7 +63,7 @@ a {
     position:relative !important;
     top: 0 !important;
     z-index:999 !important;
-    overflow-x:hidden !important;
+    overflow-x: hidden !important;
     font-size:1.1rem !important;
     /*max-width:100vw;*/
     padding: 0 60px 0 20px !important;
@@ -164,6 +166,10 @@ a {
 
 /* Desktop: inline nav links, no hamburger (must match MOBILE_NAV_MQ in website.js) */
 @media screen and (min-width: 1201px) {
+    /* No vertical scroll chrome; x stays hidden for wide nav */
+    #heading .navbar {
+        overflow-y: hidden !important;
+    }
     #mobile-menu.navbar__toggle {
         display: none !important;
     }
@@ -233,10 +239,9 @@ a {
     .navbar__menu.activating {
         opacity: 1;
         z-index: 99;
-        /* Room for stacked links + tap targets (avoid clipping) */
-        max-height: min(480px, 70vh);
-        overflow-x: hidden;
-        overflow-y: auto;
+        /* Natural height — no max-height + overflow:auto (that showed a navbar scrollbar) */
+        max-height: none;
+        overflow: visible;
         font-size: 1rem !important;
         pointer-events: auto;
         padding-top: 4px;

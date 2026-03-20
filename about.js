@@ -1,4 +1,17 @@
 let slideIndex = 1;
+
+function layoutSlideshowTrack() {
+  const track = document.querySelector(".slideshow-track");
+  const slides = document.getElementsByClassName("mySlides");
+  if (!track || !slides.length) return;
+  const n = slides.length;
+  track.style.width = `${n * 100}%`;
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.flex = `0 0 ${100 / n}%`;
+  }
+}
+
+layoutSlideshowTrack();
 showSlides(slideIndex);
 
 function plusSlides(n) {
@@ -22,68 +35,46 @@ function showSlides(n) {
   let i;
   let slides = document.getElementsByClassName("mySlides");
   let dots = document.getElementsByClassName("dot");
+  const track = document.querySelector(".slideshow-track");
+  if (!slides.length || !track) return;
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
+  const pct = ((slideIndex - 1) / slides.length) * 100;
+  track.style.transform = `translateX(-${pct}%)`;
   for (i = 0; i < dots.length; i++) {
     dots[i].className = dots[i].className.replace(" active", "");
   }
-  slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active";
+  if (dots[slideIndex-1]) dots[slideIndex-1].className += " active";
   setActiveCaption(slideIndex);
 }
 
-function setupScrollSync() {
-  const captions = Array.from(document.querySelectorAll(".about-slide-caption[data-slide]"));
-  if (captions.length === 0) return;
-  if (!("IntersectionObserver" in window)) return;
+const slideshowRoot = document.querySelector(".slideshow-container");
+const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+let slideIntervalId = null;
+const SLIDE_MS = 3000;
 
-  // The slideshow is sticky at `top: 20vh`, so we sync to the caption closest to that Y position.
-  let targetY = window.innerHeight * 0.2;
-  const distanceToTarget = new Map(); // slideIndex -> distance
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        const idx = parseInt(entry.target.getAttribute("data-slide"), 10);
-        if (Number.isNaN(idx)) continue;
-
-        if (entry.isIntersecting) {
-          const top = entry.boundingClientRect.top;
-          distanceToTarget.set(idx, Math.abs(top - targetY));
-        } else {
-          distanceToTarget.delete(idx);
-        }
-      }
-
-      if (distanceToTarget.size === 0) return;
-
-      let bestIdx = slideIndex;
-      let bestDist = Infinity;
-      for (const [idx, dist] of distanceToTarget.entries()) {
-        if (dist < bestDist) {
-          bestDist = dist;
-          bestIdx = idx;
-        }
-      }
-
-      if (bestIdx !== slideIndex) currentSlide(bestIdx);
-    },
-    {
-      root: null,
-      rootMargin: "-20vh 0px -60vh 0px",
-      threshold: [0.05, 0.1, 0.25, 0.5, 0.75],
-    }
-  );
-
-  captions.forEach((el) => observer.observe(el));
-
-  window.addEventListener("resize", () => {
-    targetY = window.innerHeight * 0.2;
-    distanceToTarget.clear();
-  });
+function startAutoRotate() {
+  if (prefersReducedMotion) return;
+  if (slideIntervalId) return;
+  slideIntervalId = setInterval(() => {
+    plusSlides(1);
+  }, SLIDE_MS);
 }
 
-setupScrollSync();
+function stopAutoRotate() {
+  if (!slideIntervalId) return;
+  clearInterval(slideIntervalId);
+  slideIntervalId = null;
+}
+
+if (slideshowRoot) {
+  slideshowRoot.addEventListener("mouseenter", stopAutoRotate);
+  slideshowRoot.addEventListener("mouseleave", startAutoRotate);
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) stopAutoRotate();
+  else startAutoRotate();
+});
+
+startAutoRotate();

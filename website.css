@@ -480,8 +480,10 @@ a {
 .intro_line{
     position:absolute;
     color:#fff;
-    top:23rem;
-    left:8rem;
+    top: clamp(11rem, 28vw, 23rem);
+    left: clamp(1.5rem, 6vw, 8rem);
+    z-index: 2;
+    max-width: min(92vw, 920px);
 }
 #name{
     font-family: var(--jade-clement-font);
@@ -534,28 +536,32 @@ a {
     }
 }
 
-.name-with-role{
-    display: inline-flex;
-    align-items: baseline;
-    /* Desktop responsive gap:
-       - 1200px => 160px
-       - +10px per +50px (i.e. +0.2px per 1px)
-       - cap at 240px
-    */
-    gap: clamp(130px, calc(130px + (100vw - 1200px) / 5), 240px);
+.hero-title-row{
+    position: relative;
+    display: inline-block;
 }
 
-.typed-role-group{
+/* Independent anchor for the typed role (uncoupled from name spacing). */
+.typed-role-anchor{
+    position: absolute;
+    /* Start at page midpoint + 50px, independent of name width. */
+    left: calc(50vw + 50px - clamp(1.5rem, 6vw, 8rem));
+    bottom: 5em;
     display: inline-flex;
     align-items: baseline;
+    min-width: clamp(180px, 22vw, 320px);
 }
 
 @media screen and (max-width: 999px){
-    .name-with-role{
+    .hero-title-row{
         display: flex;
         flex-direction: column; /* drop under the name */
         align-items: flex-start;
         gap: 10px;
+    }
+    .typed-role-anchor{
+        position: static;
+        min-width: 0;
     }
 }
 
@@ -591,8 +597,8 @@ a {
         height:80px;
     }
     .intro_line{
-        left:3rem;
-        top:15rem;
+        left: clamp(1rem, 4.5vw, 3rem);
+        top: clamp(10rem, 25vw, 15rem);
     }
     .w1 {
         left:0;
@@ -621,8 +627,18 @@ a {
         
     }
     .intro_line{
-        left:3rem;
-        top:15rem;
+        left: 1rem;
+        top: clamp(6rem, 14vw, 8rem);
+    }
+    #hello{
+        font-size: clamp(2rem, 7vw, 2.6rem);
+    }
+    .hero-title-row{
+        gap: 6px;
+    }
+    .typewriter{
+        font-size: 1.45em;
+        min-width: 11ch;
     }
     .welcome{
         position:absolute;
@@ -648,11 +664,21 @@ a {
         width:100%;
     }
     .intro_line{
-        left:3rem;
-        top:12rem;
+        left: 1rem;
+        top: clamp(4.25rem, 12vw, 5.75rem);
+    }
+    #hello{
+        font-size: clamp(1.9rem, 8vw, 2.4rem);
     }
     #name{
-        font-size:50px;
+        font-size: clamp(3rem, 12vw, 3.8rem);
+    }
+    .hero-title-row{
+        gap: 4px;
+    }
+    .typewriter{
+        font-size: 1.18em;
+        min-width: 9.5ch;
     }
     #intro{
         width:350px;
@@ -676,15 +702,6 @@ a {
 
 
 }
-
-/* Desktop: keep hero title starting right of center */
-@media screen and (min-width: 1001px){
-    .intro_line{
-        left: 54vw;
-    }
-}
-
-
 
 /*Every Main body of a page*/
 .page{

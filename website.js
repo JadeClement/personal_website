@@ -309,34 +309,6 @@ if (document.readyState === "loading") {
     initTapFlipCards();
 }
 
-// Responsive hero title lift (home page only).
-function initIntroTitleLift() {
-    const introLine = document.querySelector(".intro_line");
-    if (!introLine) return;
-
-    const startWidthPx = 1000;
-    const pixelsUpPerPxWidthDecrease = 10 / 40; // 10px up per 40px width decrease
-    const maxLiftPx = 400; // safety cap so it doesn't drift off-screen
-
-    function update() {
-        const width = window.innerWidth;
-        const widthDecrease = startWidthPx - width; // positive when below startWidthPx
-        const rawLiftPx = widthDecrease * pixelsUpPerPxWidthDecrease;
-        const liftPx = Math.max(0, Math.min(maxLiftPx, rawLiftPx));
-        // Move the entire hero title upwards smoothly by adjusting the Y translate.
-        introLine.style.transform = `translateY(${-liftPx}px)`;
-    }
-
-    update();
-    window.addEventListener("resize", update);
-}
-
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initIntroTitleLift);
-} else {
-    initIntroTitleLift();
-}
-
 // Automatic image loading strategy across all pages.
 // - Keep the first important in-view image eager for fast paint.
 // - Load the rest lazily and decode asynchronously.

@@ -50,4 +50,16 @@ body{
 }
 ul li { padding: 5px 0px; }
 
+@media screen and (max-width: 600px){
+    .school_icon{
+        display: none;
+    }
+    .edu_block{
+        margin-left: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding-left: 10px;
+    }
+}
+
 

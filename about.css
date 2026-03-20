@@ -73,23 +73,44 @@ body.about-page #heading .navbar__links {
 
 .about-scroll-layout {
   display: flex;
-  gap: 3rem;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 1.75rem;
+  align-items: stretch;
   width: 100%;
   max-width: 92rem;
   margin: 0 auto;
-  /* Keep the sticky stack from leaving extra blank scroll at the end. */
-  padding: 4rem 1.5rem 0;
+  padding: 2.5rem 1rem 4.5rem;
   box-sizing: border-box;
 }
 
+@media (min-width: 1001px) {
+  .about-scroll-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    column-gap: 3rem;
+    row-gap: 0;
+    align-items: start;
+    padding: 4rem 1.5rem 0;
+  }
+}
+
 .about-slideshow-column {
-  flex: 0 0 340px;
-  position: sticky;
-  top: 20vh;
-  align-self: flex-start;
+  width: 100%;
   z-index: 2;
-  order: 2;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 1001px) {
+  .about-slideshow-column {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    position: sticky;
+    top: 20vh;
+    align-self: start;
+    justify-content: flex-start;
+    width: auto;
+  }
 }
 
 /* `.about1` adds padding globally; we don't want that around the sticky panel. */
@@ -98,9 +119,14 @@ body.about-page #heading .navbar__links {
 }
 
 .about-scroll-text-column {
-  flex: 1;
   min-width: 0;
-  order: 1;
+}
+
+@media (min-width: 1001px) {
+  .about-scroll-text-column {
+    grid-column: 1;
+    grid-row: 2;
+  }
 }
 
 .about-slide-caption {
@@ -117,6 +143,8 @@ body.about-page #heading .navbar__links {
 /* Desktop: keep the intro feeling "anchored" while the next section scrolls up */
 @media (min-width: 1001px) {
   .about-slide-caption[data-slide="1"] {
+    grid-column: 1;
+    grid-row: 1;
     position: sticky;
     top: 10vh;
     z-index: 1;
@@ -157,20 +185,6 @@ body.about-page #heading .navbar__links {
 
 /* Mobile/tablet: disable sticky panel and let content stack normally. */
 @media (max-width: 1000px) {
-  .about-scroll-layout {
-    flex-direction: column;
-    gap: 1.75rem;
-    padding: 2.5rem 1rem 4.5rem;
-  }
-
-  .about-slideshow-column {
-    position: relative;
-    top: auto;
-    flex: initial;
-    width: 100%;
-    order: 0; /* restore slideshow to top on stacked layout */
-  }
-
   .about-slide-caption {
     min-height: auto;
     padding-bottom: 2.5rem;

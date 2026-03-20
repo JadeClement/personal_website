@@ -481,7 +481,9 @@ a {
     position:absolute;
     color:#fff;
     top: clamp(11rem, 28vw, 23rem);
-    left: clamp(1.5rem, 6vw, 8rem);
+    /* Used with typed-role `left` so “50px past center” stays correct at every breakpoint. */
+    --hero-gutter: clamp(1.5rem, 6vw, 8rem);
+    left: var(--hero-gutter);
     z-index: 2;
     max-width: min(92vw, 920px);
 }
@@ -538,30 +540,43 @@ a {
 
 .hero-title-row{
     position: relative;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    max-width: min(92vw, 920px);
 }
 
-/* Independent anchor for the typed role (uncoupled from name spacing). */
 .typed-role-anchor{
-    position: absolute;
-    /* Start at page midpoint + 50px, independent of name width. */
-    left: calc(50vw + 50px - clamp(1.5rem, 6vw, 8rem));
-    bottom: 5em;
     display: inline-flex;
     align-items: baseline;
-    min-width: clamp(180px, 22vw, 320px);
+    min-width: 0;
+    max-width: 100%;
 }
 
-@media screen and (max-width: 999px){
-    .hero-title-row{
-        display: flex;
-        flex-direction: column; /* drop under the name */
-        align-items: flex-start;
-        gap: 10px;
-    }
+/* Narrow: role under the name (in flow) so it cannot collide with the bio block. */
+@media screen and (max-width: 899px){
     .typed-role-anchor{
         position: static;
-        min-width: 0;
+    }
+}
+
+/*
+ * Wide: role’s left edge at viewport center + 50px (same as before), with gutter matching .intro_line.
+ * Positioned relative to .hero-title-row; --hero-gutter is set on .intro_line.
+ */
+@media screen and (min-width: 900px){
+    .hero-title-row{
+        display: inline-block;
+        max-width: none;
+    }
+    .typed-role-anchor{
+        position: absolute;
+        left: calc(50vw + 50px - var(--hero-gutter));
+        bottom: 5em;
+        min-width: clamp(180px, 22vw, 320px);
+        max-width: none;
     }
 }
 
@@ -597,7 +612,8 @@ a {
         height:80px;
     }
     .intro_line{
-        left: clamp(1rem, 4.5vw, 3rem);
+        --hero-gutter: clamp(1rem, 4.5vw, 3rem);
+        left: var(--hero-gutter);
         top: clamp(10rem, 25vw, 15rem);
     }
     .w1 {
@@ -627,7 +643,8 @@ a {
         
     }
     .intro_line{
-        left: 1rem;
+        --hero-gutter: 1rem;
+        left: var(--hero-gutter);
         top: clamp(6rem, 14vw, 8rem);
     }
     #hello{
@@ -664,7 +681,8 @@ a {
         width:100%;
     }
     .intro_line{
-        left: 1rem;
+        --hero-gutter: 1rem;
+        left: var(--hero-gutter);
         top: clamp(4.25rem, 12vw, 5.75rem);
     }
     #hello{

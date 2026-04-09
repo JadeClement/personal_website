@@ -5,6 +5,21 @@
 
 body.about-page {
   background-color: #f8f5ef;
+  /*
+   * Sticky captions: clear navbar (~80px) + safe area; generous so titles never tuck under #heading.
+   * body { overflow-x: hidden } elsewhere forces overflow-y: auto and can clip sticky children — use clip here.
+   */
+  --about-caption-sticky-top: calc(
+    env(safe-area-inset-top, 0px) + max(7.25rem, 15vh)
+  );
+  scroll-padding-top: var(--about-caption-sticky-top);
+  overflow-x: clip;
+}
+
+.about-scroll-section,
+.about-scroll-layout,
+.about-scroll-text-column {
+  overflow: visible;
 }
 
 :root {
@@ -146,7 +161,7 @@ body.about-page #heading .navbar__links {
     grid-column: 1;
     grid-row: 1;
     position: sticky;
-    top: 10vh;
+    top: var(--about-caption-sticky-top);
     z-index: 1;
     /* Make the intro block shorter so the next section can rise sooner. */
     min-height: 45vh;
@@ -166,20 +181,23 @@ body.about-page #heading .navbar__links {
    */
   .about-slide-caption[data-slide="2"] {
     position: sticky;
-    top: 10vh;
+    top: var(--about-caption-sticky-top);
     z-index: 2;
   }
 
   .about-slide-caption[data-slide="3"] {
     position: sticky;
-    top: 10vh;
+    top: var(--about-caption-sticky-top);
     z-index: 3;
   }
 
   .about-slide-caption[data-slide="4"] {
     position: sticky;
-    top: 10vh;
+    top: var(--about-caption-sticky-top);
     z-index: 4;
+    /* Extra room so the H2 + underline cannot sit under the nav if bar height varies. */
+    padding-top: 2rem;
+    box-sizing: border-box;
   }
 }
 
@@ -499,6 +517,11 @@ body.about-page #heading .navbar__links {
 /* Manifesto */
 #about_manifesto {
   text-align: center;
+  scroll-margin-top: var(--about-caption-sticky-top);
+}
+
+#about_manifesto > .about_section_title {
+  padding-top: 0.85rem;
 }
 
 #manifesto_intro {

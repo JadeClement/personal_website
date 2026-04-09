@@ -461,7 +461,8 @@ a {
     height: auto;
     position:relative;
     min-width:100vw;
-    padding-bottom: 12px;
+    /* Space before Recently so the section title is not tight against the intro block */
+    padding-bottom: clamp(16px, 3vw, 32px);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -758,7 +759,9 @@ a {
 .recently_section{
     /* Use `100%` instead of `100vw` to avoid subtle horizontal overflow/clipping on mobile. */
     width: 100%;
-    padding: 60px 20px 90px;
+    position: relative;
+    z-index: 1;
+    padding: clamp(4rem, 7vw, 5rem) 20px 90px;
     box-sizing: border-box;
     background-color: #98a2ac;
     /* Clear band below the intro stack (photo + copy + hero). */
@@ -767,40 +770,79 @@ a {
 
 .recently_title{
     font-size: var(--secondaryTitleFontSize);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: underline;
+    /* Border underline stays in the box model; text-decoration often clips descenders with overflow on ancestors. */
+    display: block;
+    width: fit-content;
+    max-width: calc(100% - 32px);
+    margin: 0 auto 24px;
+    padding: 0.5em max(12px, env(safe-area-inset-left, 0px)) 0.65em max(12px, env(safe-area-inset-right, 0px));
+    text-align: center;
+    line-height: 1.45;
+    text-decoration: none;
+    border-bottom: 2px solid currentColor;
     font-family: var(--title-vintage);
     color: #533129;
-    margin-bottom: 24px;
-    /* Safety against edge clipping due to underline offset / flex sizing. */
-    max-width: 100%;
-    padding: 0 10px;
     box-sizing: border-box;
 }
 
+/* Three columns from 800px up (tracks shrink below 320px when the row is narrow). Below that, single column. */
 .recently_cards{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 28px;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+    gap: clamp(22px, 4vw, 32px);
     align-items: stretch;
+    width: 100%;
+    max-width: min(320px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+@media (min-width: 800px){
+    .recently_cards{
+        grid-template-columns: repeat(3, minmax(0, 320px));
+        justify-content: center;
+        max-width: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 .recently_card{
-    width: min(320px, 86vw);
-    /* Fits the longest back face (e.g. triathlon list) without clipping or inner scroll; fixed height keeps all three equal. */
-    height: 400px;
+    width: 100%;
+    max-width: 320px;
+    justify-self: center;
+    /* Stacking context so 3D flips don’t interleave with siblings */
+    isolation: isolate;
+    /* Fill grid row so all cards in a row match the tallest; inner grows within this box. */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     cursor: pointer;
     perspective: 1000px;
     overscroll-behavior: contain;
 }
 
+@media (min-width: 800px){
+    .recently_card{
+        justify-self: stretch;
+        max-width: none;
+    }
+}
+
 .recently_cards .flip-card-inner{
     position: relative;
+    flex: 1 1 auto;
     width: 100%;
-    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Both faces share one cell; row height = max(front, back); faces stretch to that height. */
+    align-items: stretch;
+    justify-items: stretch;
+    /* Clip rotateY overflow here (keeps face box-shadows); avoid clipping on .recently_card (hurts shadow + perspective). */
+    overflow: hidden;
+    border-radius: 16px;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
 }
@@ -822,8 +864,11 @@ a {
 
 .recently_cards .flip-card-front,
 .recently_cards .flip-card-back{
-    position: absolute;
-    inset: 0;
+    grid-area: 1 / 1;
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     border-radius: 16px;

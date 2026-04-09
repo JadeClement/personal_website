@@ -822,6 +822,8 @@ a {
     cursor: pointer;
     perspective: 1000px;
     overscroll-behavior: contain;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 @media (min-width: 800px){
@@ -847,19 +849,10 @@ a {
     transform-style: preserve-3d;
 }
 
-/* Desktop: hover/focus; all devices: click/tap/keyboard toggle via `.is-flipped` (see website.js). */
-.recently_cards .flip-card:hover .flip-card-inner,
-.recently_cards .flip-card:focus-within .flip-card-inner,
-.recently_cards .flip-card.is-flipped .flip-card-inner{
+/* Hover peek uses `.flip-card--hover` from JS on capable desktops only; taps use `.is-flipped` (all devices). */
+.recently_cards .flip-card.is-flipped .flip-card-inner,
+.recently_cards .flip-card.flip-card--hover .flip-card-inner{
     transform: rotateY(180deg);
-}
-
-/* Touch: ignore sticky :hover / :focus-within so only `.is-flipped` (tap) controls the face. */
-@media (hover: none) and (pointer: coarse){
-    .recently_cards .flip-card:hover .flip-card-inner,
-    .recently_cards .flip-card:focus-within .flip-card-inner{
-        transform: rotateY(0deg);
-    }
 }
 
 .recently_cards .flip-card-front,

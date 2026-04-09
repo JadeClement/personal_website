@@ -274,26 +274,42 @@ if (document.readyState === "loading") {
     initRoleTypewriter();
 }
 
-// Flip cards: tap/click toggles `.is-flipped` (all devices). CSS adds hover/focus on fine pointers; coarse touch uses class only.
+// Flip cards: tap/click toggles `.is-flipped`. Desktop hover peek uses `.flip-card--hover` (never :hover CSS — avoids touch quirks).
 function initTapFlipCards() {
     const flipCards = document.querySelectorAll(".recently_cards .flip-card");
     if (!flipCards.length) return;
 
+    const canHoverPeek = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
     flipCards.forEach((card) => {
-        // Default state for assistive technologies.
         if (!card.hasAttribute("aria-expanded")) card.setAttribute("aria-expanded", "false");
 
-        const toggleFlip = () => {
-            const isFlipped = card.classList.toggle("is-flipped");
-            card.setAttribute("aria-expanded", String(isFlipped));
+        const updateAriaExpanded = () => {
+            const showingBack =
+                card.classList.contains("is-flipped") || card.classList.contains("flip-card--hover");
+            card.setAttribute("aria-expanded", String(showingBack));
         };
 
-        card.addEventListener("click", (e) => {
-            // If the browser handles this as a “click after scroll”, it won't fire; safe to toggle on click.
+        const toggleFlip = () => {
+            card.classList.toggle("is-flipped");
+            updateAriaExpanded();
+        };
+
+        if (canHoverPeek) {
+            card.addEventListener("mouseenter", () => {
+                card.classList.add("flip-card--hover");
+                updateAriaExpanded();
+            });
+            card.addEventListener("mouseleave", () => {
+                card.classList.remove("flip-card--hover");
+                updateAriaExpanded();
+            });
+        }
+
+        card.addEventListener("click", () => {
             toggleFlip();
         });
 
-        // Keyboard support (Enter/Space), since cards are focusable via `tabindex="0"`.
         card.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();

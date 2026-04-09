@@ -517,7 +517,9 @@ a {
     padding: clamp(0.75rem, 2vw, 1.25rem) clamp(0.65rem, 2.5vw, 1rem) clamp(1rem, 2.5vw, 1.75rem);
     box-sizing: border-box;
     position: relative;
-    min-height: 0;
+    /* Omit min-height: 0 — that lets this flex item shrink below the photo/text, so
+       .recently_section can start too high and overlap the profile image. Default `auto`
+       keeps the box at least as tall as its contents. */
 }
 
 .typewriter{
@@ -788,7 +790,8 @@ a {
 
 .recently_card{
     width: min(320px, 86vw);
-    height: 240px;
+    /* Fits the longest back face (e.g. triathlon list) without clipping or inner scroll; fixed height keeps all three equal. */
+    height: 400px;
     cursor: pointer;
     perspective: 1000px;
     overscroll-behavior: contain;

@@ -274,12 +274,29 @@ if (document.readyState === "loading") {
     initRoleTypewriter();
 }
 
-// Flip cards: tap/click toggles `.is-flipped`. Desktop hover peek uses `.flip-card--hover` (never :hover CSS — avoids touch quirks).
+/**
+ * Whether flip cards should use mouseenter/mouseleave “peek” (desktop mouse/trackpad).
+ * Uses only CSS interaction media — never viewport width — to infer touch-first vs fine-pointer:
+ * - (pointer: coarse) → finger is primary (typical phone / iPad touch)
+ * - (hover: none) → no reliable hover (same class of devices)
+ * MDN: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/pointer
+ */
+function flipCardsShouldUseHoverPeek() {
+    if (typeof window.matchMedia !== "function") return false;
+    if (window.matchMedia("(pointer: coarse)").matches) return false;
+    if (window.matchMedia("(hover: none)").matches) return false;
+    return (
+        window.matchMedia("(hover: hover)").matches &&
+        window.matchMedia("(pointer: fine)").matches
+    );
+}
+
+// Flip cards: tap/click always toggles `.is-flipped`. Hover peek uses `.flip-card--hover` only when flipCardsShouldUseHoverPeek().
 function initTapFlipCards() {
     const flipCards = document.querySelectorAll(".recently_cards .flip-card");
     if (!flipCards.length) return;
 
-    const canHoverPeek = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const canHoverPeek = flipCardsShouldUseHoverPeek();
 
     flipCards.forEach((card) => {
         if (!card.hasAttribute("aria-expanded")) card.setAttribute("aria-expanded", "false");

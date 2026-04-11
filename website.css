@@ -876,7 +876,13 @@ a {
     transition: box-shadow 220ms ease, border-color 220ms ease, background 220ms ease;
 }
 
+/* Paint front above back so 3D overlap + backface never shifts the visible title */
+.recently_cards .flip-card-front{
+    z-index: 2;
+}
+
 .recently_cards .flip-card-back{
+    z-index: 1;
     transform: rotateY(180deg);
     background: rgba(255, 255, 255, 0.96);
     overflow: hidden;
@@ -899,6 +905,13 @@ a {
     color: var(--title-brown);
     line-height: 1.3;
     font-family: var(--title-vintage);
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    text-align: center;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
 }
 
 .recently_cards .flip-card-desc{

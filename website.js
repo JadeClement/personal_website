@@ -291,12 +291,80 @@ function flipCardsShouldUseHoverPeek() {
     );
 }
 
+/** Absolute-positioned flip faces need a definite inner height; measure each side without 3D transforms. */
+function syncRecentlyFlipCardHeights() {
+    document.querySelectorAll(".recently_cards .flip-card").forEach((card) => {
+        const inner = card.querySelector(".flip-card-inner");
+        const front = card.querySelector(".flip-card-front");
+        const back = card.querySelector(".flip-card-back");
+        if (!inner || !front || !back) return;
+
+        const geom = [
+            "position",
+            "left",
+            "top",
+            "right",
+            "bottom",
+            "width",
+            "height",
+            "transform",
+            "display",
+        ];
+
+        inner.style.minHeight = "";
+
+        back.style.display = "none";
+        front.style.position = "relative";
+        front.style.left = "0";
+        front.style.top = "0";
+        front.style.right = "auto";
+        front.style.bottom = "auto";
+        front.style.width = "100%";
+        front.style.height = "auto";
+        front.style.transform = "none";
+        const hf = Math.max(front.offsetHeight, 1);
+
+        front.style.display = "none";
+        back.style.display = "";
+        back.style.position = "relative";
+        back.style.left = "0";
+        back.style.top = "0";
+        back.style.right = "auto";
+        back.style.bottom = "auto";
+        back.style.width = "100%";
+        back.style.height = "auto";
+        back.style.transform = "none";
+        const hb = Math.max(back.offsetHeight, 1);
+
+        geom.forEach((p) => {
+            front.style.removeProperty(p);
+            back.style.removeProperty(p);
+        });
+
+        inner.style.minHeight = `${Math.max(hf, hb)}px`;
+    });
+}
+
 // Flip cards: tap/click always toggles `.is-flipped`. Hover peek uses `.flip-card--hover` only when flipCardsShouldUseHoverPeek().
 function initTapFlipCards() {
     const flipCards = document.querySelectorAll(".recently_cards .flip-card");
     if (!flipCards.length) return;
 
     const canHoverPeek = flipCardsShouldUseHoverPeek();
+
+    let resizeTimer = 0;
+    const scheduleHeightSync = () => {
+        window.requestAnimationFrame(() => syncRecentlyFlipCardHeights());
+    };
+    syncRecentlyFlipCardHeights();
+    scheduleHeightSync();
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(scheduleHeightSync);
+    }
+    window.addEventListener("resize", () => {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(scheduleHeightSync, 120);
+    });
 
     flipCards.forEach((card) => {
         if (!card.hasAttribute("aria-expanded")) card.setAttribute("aria-expanded", "false");

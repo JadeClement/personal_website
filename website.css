@@ -813,7 +813,6 @@ a {
     width: 100%;
     max-width: 320px;
     justify-self: center;
-    /* Stacking context so 3D flips don’t interleave with siblings */
     isolation: isolate;
     /* Fill grid row so all cards in a row match the tallest; inner grows within this box. */
     height: 100%;
@@ -837,14 +836,8 @@ a {
     position: relative;
     flex: 1 1 auto;
     width: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-    /* Both faces share one cell; row height = max(front, back); faces stretch to that height. */
-    align-items: stretch;
-    justify-items: stretch;
-    /* Clip rotateY overflow here (keeps face box-shadows); avoid clipping on .recently_card (hurts shadow + perspective). */
-    overflow: hidden;
-    border-radius: 16px;
+    /* overflow:hidden here flattens preserve-3d in WebKit and breaks backface-visibility (wrong/mirrored face). */
+    overflow: visible;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
@@ -858,11 +851,11 @@ a {
 
 .recently_cards .flip-card-front,
 .recently_cards .flip-card-back{
-    grid-area: 1 / 1;
-    position: relative;
-    width: 100%;
+    position: absolute;
+    inset: 0;
+    width: auto;
     min-width: 0;
-    min-height: 0;
+    box-sizing: border-box;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     border-radius: 16px;

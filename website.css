@@ -22,6 +22,7 @@ html{
 body {
     margin: 0;
     padding: 0;
+    padding-bottom: 84px; /* room for fixed footer */
     overflow-x: hidden; 
     background-color: #819fb3;
     background-size:cover;
@@ -374,14 +375,17 @@ a {
 
 
 
-/*Footer*/
+/*Footer — fixed so contact links stay visible while scrolling */
 .footer {
     background: #3b6694;
-    position: relative;
-    margin-top: auto;
-    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    margin-top: 0;
+    width: 100%;
     min-height: 84px;
-    max-width:100vw;
+    max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;

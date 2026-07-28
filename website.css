@@ -596,18 +596,19 @@ a {
     max-width: 100%;
 }
 
-/* Mid/narrow: role under the name so a single line never runs off the viewport. */
-@media screen and (max-width: 1299px){
+/* Mobile only: role under the name (smaller name + adjusted top keep it on the hero). */
+@media screen and (max-width: 899px){
     .typed-role-anchor{
         position: static;
     }
 }
 
 /*
- * Wide (≥1300px): role’s left edge at viewport center + 50px, single line (nowrap).
- * Stacked below this width so long roles never wrap or clip beside the name.
+ * Tablet/desktop (≥900px): role beside the name on the mountain overlay.
+ * Absolute + bottom keeps it in the hero — never stack here or it spills into #intro.
+ * Mid widths use a slightly smaller type size so nowrap roles fit without clipping.
  */
-@media screen and (min-width: 1300px){
+@media screen and (min-width: 900px){
     .hero-title-row{
         display: inline-block;
         max-width: none;
@@ -618,6 +619,17 @@ a {
         bottom: 5em;
         min-width: clamp(180px, 22vw, 320px);
         max-width: none;
+    }
+}
+
+@media screen and (min-width: 900px) and (max-width: 1200px){
+    .typed-role-anchor{
+        /* Start a bit left of center so long nowrap roles stay on-screen */
+        left: calc(42vw + 20px - var(--hero-gutter));
+    }
+    .typewriter{
+        font-size: 1.5em;
+        min-width: 11ch;
     }
 }
 

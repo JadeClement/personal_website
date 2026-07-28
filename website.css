@@ -596,18 +596,18 @@ a {
     max-width: 100%;
 }
 
-/* Mid/narrow: role under the name (in flow) so it cannot run off the viewport. */
-@media screen and (max-width: 1099px){
+/* Mid/narrow: role under the name so a single line never runs off the viewport. */
+@media screen and (max-width: 1299px){
     .typed-role-anchor{
         position: static;
     }
 }
 
 /*
- * Wide (≥1100px): role’s left edge at viewport center + 50px, with gutter matching .intro_line.
- * Cap width to remaining space and allow wrap so long roles never clip.
+ * Wide (≥1300px): role’s left edge at viewport center + 50px, single line (nowrap).
+ * Stacked below this width so long roles never wrap or clip beside the name.
  */
-@media screen and (min-width: 1100px){
+@media screen and (min-width: 1300px){
     .hero-title-row{
         display: inline-block;
         max-width: none;
@@ -617,12 +617,7 @@ a {
         left: calc(50vw + 50px - var(--hero-gutter));
         bottom: 5em;
         min-width: clamp(180px, 22vw, 320px);
-        /* Viewport center + 50px → remaining room to the right edge */
-        max-width: calc(50vw - 50px - 1rem);
-    }
-    .typewriter{
-        white-space: normal;
-        overflow-wrap: break-word;
+        max-width: none;
     }
 }
 

@@ -214,7 +214,7 @@ function initRoleTypewriter() {
         "AI Safety Researcher",
         "Full-Stack Developer",
         "Triathlete",
-        "Uoft Engineering Science Student",
+        "UofT EngSci Grad",
     ];
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -596,18 +596,18 @@ a {
     max-width: 100%;
 }
 
-/* Narrow: role under the name (in flow) so it cannot collide with the bio block. */
-@media screen and (max-width: 899px){
+/* Mid/narrow: role under the name (in flow) so it cannot run off the viewport. */
+@media screen and (max-width: 1099px){
     .typed-role-anchor{
         position: static;
     }
 }
 
 /*
- * Wide: role’s left edge at viewport center + 50px (same as before), with gutter matching .intro_line.
- * Positioned relative to .hero-title-row; --hero-gutter is set on .intro_line.
+ * Wide (≥1100px): role’s left edge at viewport center + 50px, with gutter matching .intro_line.
+ * Cap width to remaining space and allow wrap so long roles never clip.
  */
-@media screen and (min-width: 900px){
+@media screen and (min-width: 1100px){
     .hero-title-row{
         display: inline-block;
         max-width: none;
@@ -617,7 +617,12 @@ a {
         left: calc(50vw + 50px - var(--hero-gutter));
         bottom: 5em;
         min-width: clamp(180px, 22vw, 320px);
-        max-width: none;
+        /* Viewport center + 50px → remaining room to the right edge */
+        max-width: calc(50vw - 50px - 1rem);
+    }
+    .typewriter{
+        white-space: normal;
+        overflow-wrap: break-word;
     }
 }
 

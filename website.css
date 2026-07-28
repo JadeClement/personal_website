@@ -375,13 +375,14 @@ a {
 
 
 
-/*Footer — fixed so contact links stay visible while scrolling */
+/*Footer — pinned to viewport so contact links stay visible while scrolling */
 .footer {
     background: #3b6694;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 10000 !important;
     margin-top: 0;
     width: 100%;
     min-height: 84px;

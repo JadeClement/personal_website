@@ -666,20 +666,28 @@ a {
 @media screen and (max-width: 800px){
     .mountain{
         width:100%;
+        height: auto;
     }
     #mountain_img{
         height: 400px;
         width:100%;
+        display: block;
     }
     #name{
         font-size:60px;
     }
+    /* Don’t stretch/center the bio under a full-viewport min-height — that leaves a huge grey gap. */
+    .intro_container{
+        min-height: 0;
+    }
     #intro{
         width: min(80vw, 100%);
+        flex: 0 0 auto;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         text-align: center;
+        padding-top: 0.5rem;
     }
     #intro .w2{
         text-align: left;
@@ -709,10 +717,12 @@ a {
 @media screen and (max-width: 500px){
     .mountain{
         width:100vw;
+        height: auto;
     }
     #mountain_img{
         height: 300px;
         width:100%;
+        display: block;
     }
     .intro_line{
         --hero-gutter: 1rem;
@@ -735,9 +745,10 @@ a {
     #intro{
         width: 100%;
         max-width: 100%;
+        flex: 0 0 auto;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         padding-left: 0.75rem;
         padding-right: 0.75rem;
     }
